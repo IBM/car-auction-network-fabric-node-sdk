@@ -33,7 +33,7 @@ let Chaincode = class {
       let payload = await method(stub, ret.params);
       return shim.success(payload);
     } catch (err) {
-      console.log(err);
+      console.info(err);
       return shim.error(err);
     }
   }
@@ -48,8 +48,8 @@ let Chaincode = class {
     if (!carAsBytes || carAsBytes.toString().length <= 0) {
       throw new Error(vin + ' does not exist: ');
     }
-    console.log('beforeCarAsyBytesToString: ')
-    console.log(carAsBytes.toString());
+    console.info('beforeCarAsyBytesToString: ')
+    console.info(carAsBytes.toString());
     return carAsBytes;
   }
 
@@ -175,6 +175,8 @@ let Chaincode = class {
       type: args[4]
     };
 
+    console.info(member);
+
     await stub.putState(args[0], Buffer.from(JSON.stringify(member)));
     console.info('============= END : Create Car ===========');
   }
@@ -210,35 +212,42 @@ let Chaincode = class {
       type: args[3]
     };
 
+    console.info('offer: ');    
+    console.info(offer);
+
     //get listing
     let listing = args[1];
+    console.info("listing: " + listing);    
     
     let listingAsBytes = await stub.getState(listing); //get the car from chaincode state
     if (!listingAsBytes || listingAsBytes.toString().length <= 0) {
       throw new Error(listing + ' does not exist: ');
     }
 
-    if (!listingAsBytes.offers) {
-      console.log('offers is non-existant ');
-      listingAsBytes.offers = [];
+    var listingJson = JSON.parse(listingAsBytes);
+    console.log('util.inspect');
+    console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
+
+    if (!listingJson.offers) {
+      console.info('offers is non-existant ');
+      listingJson.offers = [];
     }
-    listingAsBytes.offers.push(offer);
+  
+    listingJson.offers.push(offer);
+    console.log('after push: ' + listingJson);
+    console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
 
-    if (!listingAsBytes.offers) {
-      console.log('offers is non-existant part 2 ');
-      listingAsBytes.offers = [];
+    await stub.putState(args[0], Buffer.from(JSON.stringify(listingJson)));
+
+    let listingAsBytes2 = await stub.getState(listing); //get the car from chaincode state
+    if (!listingAsBytes2 || listingAsBytes2.toString().length <= 0) {
+      throw new Error(listing + ' does not exist: ');
     }
 
-    var listingStr = listingAsBytes.toString();
+    var listingJson2 = JSON.parse(listingAsBytes2);
+    console.info('util.inspect');
+    console.info(util.inspect(listingJson2, {showHidden: false, depth: null}));
 
-    console.log("listringOffers: " + listingStr.offers);
-    console.log('offerAsBytes.toString: ');
-    console.log(listingAsBytes.toString());
-
-    console.log('offerAsBytes: ');
-    console.log(listingAsBytes);
-
-    await stub.putState(args[0], Buffer.from(JSON.stringify(listingAsBytes)));
     console.info('============= END : Create Car ===========');
   }
 
@@ -261,10 +270,50 @@ let Chaincode = class {
       throw new Error(vin + ' does not exist: ');
     }
 
-    var vehicleListing = {
-      listing: args[0],
-      type: args[1]
-    };
+    var listing = JSON.parse(listingAsBytes);
+    let highestOffer = null;
+
+    if (listing.offers && listing.offers.length > 0) {
+      listing.offers.sort(function(a, b) {
+        return (b.bidPrice - a.bidPrice);
+      });
+
+      highestOffer = listing.offers[0];
+
+      if (highestOffer.bidPrice >= listing.reservePrice) {
+        let buyer = highestOffer.member;
+        let seller = listing.vehicle.owner;
+        //give money to seller
+        console.info('#### seller balance before: ' + seller.balance);        
+        seller.balance += highestOffer.bidPrice;
+        console.info('#### seller balance before: ' + seller.balance);   
+        console.info('#### buy balance before: ' + buyer.balance);                
+        buyer.balance -= highestOffer.bidPrice;
+        console.info('#### buy balance after: ' + buyer.balance);                
+        listing.vehicle.owner = buyer;
+
+        listing.offers = null;
+
+      }
+
+
+    }
+
+    if (highestOffer) {
+      let vehicleAsBytes = await stub.putState(listing.vehicle); //get the car from chaincode state
+      if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
+        throw new Error(vin + ' does not exist: ');
+      }
+
+      await stub.putState(args[0], Buffer.from(JSON.stringify(listing.vehicle)));
+      
+      console.info('#### buy balance after: ' + vehicle);                      
+
+
+    }
+
+    
+    
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
     console.info('============= END : Create Car ===========');
