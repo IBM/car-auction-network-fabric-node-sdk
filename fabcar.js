@@ -307,70 +307,14 @@ let Chaincode = class {
 
       await stub.putState(args[0], Buffer.from(JSON.stringify(listing.vehicle)));
       
-      console.info('#### buy balance after: ' + vehicle);                      
+      console.info('#### after put state: ' + listing.vehicle);                      
 
 
     }
 
-    
-    
-
-    await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
+    // await stub.putState(args[0], Buffer.from(JSON.stringify(listing.vehicle)));
     console.info('============= END : Create Car ===========');
   }
 };
 
 shim.start(new Chaincode());
-
-
-
-
-
-
-// async queryAllCars(stub, args) {
-  
-//       let startKey = 'CAR0';
-//       let endKey = 'CAR999';
-  
-//       let iterator = await stub.getStateByRange(startKey, endKey);
-  
-//       let allResults = [];
-//       while (true) {
-//         let res = await iterator.next();
-  
-//         if (res.value && res.value.value.toString()) {
-//           let jsonRes = {};
-//           console.log(res.value.value.toString('utf8'));
-  
-//           jsonRes.Key = res.value.key;
-//           try {
-//             jsonRes.Record = JSON.parse(res.value.value.toString('utf8'));
-//           } catch (err) {
-//             console.log(err);
-//             jsonRes.Record = res.value.value.toString('utf8');
-//           }
-//           allResults.push(jsonRes);
-//         }
-//         if (res.done) {
-//           console.log('end of data');
-//           await iterator.close();
-//           console.info(allResults);
-//           return Buffer.from(JSON.stringify(allResults));
-//         }
-//       }
-//     }
-  
-//     async changeCarOwner(stub, args) {
-//       console.info('============= START : changeCarOwner ===========');
-//       if (args.length != 2) {
-//         throw new Error('Incorrect number of arguments. Expecting 2');
-//       }
-  
-//       let carAsBytes = await stub.getState(args[0]);
-//       let car = JSON.parse(carAsBytes);
-//       car.owner = args[1];
-  
-//       await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
-//       console.info('============= END : changeCarOwner ===========');
-//     }
-//   };
