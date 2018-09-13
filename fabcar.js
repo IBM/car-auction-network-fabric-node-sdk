@@ -7,7 +7,7 @@
 'use strict';
 const shim = require('fabric-shim');
 const util = require('util');
-//sd
+
 let Chaincode = class {
 
   // The Init method is called when the Smart Contract 'fabcar' is instantiated by the blockchain network
@@ -38,92 +38,73 @@ let Chaincode = class {
     }
   }
 
-  async queryVehicle(stub, args) {
-    if (args.length != 1) {
-      throw new Error('Incorrect number of arguments. Expecting CarNumber ex: CAR01');
-    }
-    let vin = args[0];
-
-    let carAsBytes = await stub.getState(vin); //get the car from chaincode state
-    if (!carAsBytes || carAsBytes.toString().length <= 0) {
-      throw new Error(vin + ' does not exist: ');
-    }
-    console.info('beforeCarAsyBytesToString: ')
-    console.info(carAsBytes.toString());
-    return carAsBytes;
-  }
-
+  //create auctioneer, 2 members, vehicle, and vehicle listing
   async initLedger(stub, args) {
     console.info('============= START : Initialize Ledger ===========');
-    let cars = [];
-    cars.push({
-      make: 'Toyota',
-      model: 'Prius',
-      color: 'blue',
-      owner: 'Tomoko'
-    });
-    cars.push({
-      make: 'Ford',
-      model: 'Mustang',
-      color: 'red',
-      owner: 'Brad'
-    });
-    cars.push({
-      make: 'Hyundai',
-      model: 'Tucson',
-      color: 'green',
-      owner: 'Jin Soo'
-    });
-    cars.push({
-      make: 'Volkswagen',
-      model: 'Passat',
-      color: 'yellow',
-      owner: 'Max'
-    });
-    cars.push({
-      make: 'Tesla',
-      model: 'S',
-      color: 'black',
-      owner: 'Adriana'
-    });
-    cars.push({
-      make: 'Peugeot',
-      model: '205',
-      color: 'purple',
-      owner: 'Michel'
-    });
-    cars.push({
-      make: 'Chery',
-      model: 'S22L',
-      color: 'white',
-      owner: 'Aarav'
-    });
-    cars.push({
-      make: 'Fiat',
-      model: 'Punto',
-      color: 'violet',
-      owner: 'Pari'
-    });
-    cars.push({
-      make: 'Tata',
-      model: 'Nano',
-      color: 'indigo',
-      owner: 'Valeria'
-    });
-    cars.push({
-      make: 'Holden',
-      model: 'Barina',
-      color: 'brown',
-      owner: 'Shotaro'
-    });
+    
+    let auctioneer = {};
+    auctioneer.firstName = "Jenny";
+    auctioneer.lastName = "Jones";
+    auctioneer.type = "auctioneer";    
+    console.info('======After auctioneer ===========');
+    console.info("auctioneer: " + JSON.stringify(auctioneer));
 
-    for (let i = 0; i < cars.length; i++) {
-      cars[i].docType = 'car';
-      await stub.putState('CAR' + i, Buffer.from(JSON.stringify(cars[i])));
-      console.info('Added <--> ', cars[i]);
-    }
+    let member1 = {};
+    member1.balance = 5000;
+    member1.firstName = "Amy";
+    member1.lastName = "Williams";
+    member1.type = "member";
+    console.info('======After member ===========');
+     
+    let member2 = {};
+    member2.balance = 5000;
+    member2.firstName = "Billy";
+    member2.lastName = "Thompson";
+    member2.type = "member";
+    
+    let vehicle = {};
+    vehicle.owner = "memberA@acme.org";
+    vehicle.type = "vehicle";
+
+    let vehicleListing = {};
+    vehicleListing.reservePrice = 3500;
+    vehicleListing.description = "Arium Nova";
+    vehicleListing.listingState = "FOR_SALE";
+    vehicleListing.offers = "";
+    vehicleListing.vehicle = "1234";
+    vehicleListing.type = "vehicleListing";  
+
+    await stub.putState('auction@acme.org', Buffer.from(JSON.stringify(auctioneer)));
+    await stub.putState('memberA@acme.org', Buffer.from(JSON.stringify(member1)));
+    await stub.putState('memberB@acme.org', Buffer.from(JSON.stringify(member2)));
+    await stub.putState('1234', Buffer.from(JSON.stringify(vehicle)));
+    await stub.putState('ABCD', Buffer.from(JSON.stringify(vehicleListing)));
+
     console.info('============= END : Initialize Ledger ===========');
   }
+
+  //query by using key
+  async query(stub, args) {
+    console.info('============= START : Query method ===========');
+    if (args.length != 1) {
+      throw new Error('Incorrect number of arguments. Expecting 1');
+    }
+
+    let query = args[0];
+
+    let queryAsBytes = await stub.getState(query); //get the car from chaincode state
+    if (!queryAsBytes || queryAsBytes.toString().length <= 0) {
+      throw new Error('member' + ' does not exist: ');
+    }
+    console.info('query response: ');    
+    console.info(queryAsBytes.toString());
+    console.info('============= END : Query method ===========');
+    
+    return queryAsBytes;
+
+  }
+
+  
 
   async createVehicle(stub, args) {
     console.info('============= START : Create Car ===========');
@@ -148,7 +129,6 @@ let Chaincode = class {
     }
 
     var vehicleListing = {
-      listingId: args[0],
       reservePrice: args[1],
       description: args[2],
       listingState: args[3],
@@ -168,7 +148,6 @@ let Chaincode = class {
     }
 
     var member = {
-      email: args[0],
       firstName: args[1],
       lastName: args[2],
       balance: args[3],
@@ -188,7 +167,6 @@ let Chaincode = class {
     }
 
     var auctioneer = {
-      email: args[0],
       firstName: args[1],
       lastName: args[2],
       type: args[3]
@@ -212,9 +190,6 @@ let Chaincode = class {
       type: args[3]
     };
 
-    console.info('offer: ');    
-    console.info(offer);
-
     //get listing
     let listing = args[1];
     console.info("listing: " + listing);    
@@ -223,32 +198,22 @@ let Chaincode = class {
     if (!listingAsBytes || listingAsBytes.toString().length <= 0) {
       throw new Error(listing + ' does not exist: ');
     }
+    listing = JSON.parse(listingAsBytes);
 
-    var listingJson = JSON.parse(listingAsBytes);
-    console.log('util.inspect');
-    console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
-
-    if (!listingJson.offers) {
-      console.info('offers is non-existant ');
-      listingJson.offers = [];
+    console.info('listing response before pushing to offers: ');    
+    console.info(listing);
+    if (!listing.offers) {
+      console.info('there are no offers! ');          
+      listing.offers = [];
     }
-  
-    listingJson.offers.push(offer);
-    console.log('after push: ' + listingJson);
-    console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
+    listing.offers.push(offer);
 
-    await stub.putState(args[0], Buffer.from(JSON.stringify(listingJson)));
+    console.info('listing response after to offers: ');    
+    console.info(listing);
+    await stub.putState(args[1], Buffer.from(JSON.stringify(listing)));    
+    
+    console.info('============= END : MakeOffer method ===========');
 
-    let listingAsBytes2 = await stub.getState(listing); //get the car from chaincode state
-    if (!listingAsBytes2 || listingAsBytes2.toString().length <= 0) {
-      throw new Error(listing + ' does not exist: ');
-    }
-
-    var listingJson2 = JSON.parse(listingAsBytes2);
-    console.info('util.inspect');
-    console.info(util.inspect(listingJson2, {showHidden: false, depth: null}));
-
-    console.info('============= END : Create Car ===========');
   }
 
   /** closeBidding 
@@ -257,9 +222,9 @@ let Chaincode = class {
    * args[0] - listingId - a reference to our vehicleListing
    */
   async closeBidding(stub, args) {
-    console.info('============= START : Create Car ===========');
+    console.info('============= START : Close bidding ===========');
     if (args.length != 1) {
-      throw new Error('Incorrect number of arguments. Expecting 5');
+      throw new Error('Incorrect number of arguments. Expecting 1');
     }
 
     //check if this listing exists
@@ -269,8 +234,11 @@ let Chaincode = class {
     if (!listingAsBytes || listingAsBytes.toString().length <= 0) {
       throw new Error(vin + ' does not exist: ');
     }
-
+    console.info('============= listing exists ===========');
+    
     var listing = JSON.parse(listingAsBytes);
+    console.info('listing: ' );     
+    console.info(util.inspect(listing, {showHidden: false, depth: null}));
     let highestOffer = null;
 
     if (listing.offers && listing.offers.length > 0) {
@@ -279,42 +247,152 @@ let Chaincode = class {
       });
 
       highestOffer = listing.offers[0];
+      console.info('highest Offer: ' + highestOffer);
 
       if (highestOffer.bidPrice >= listing.reservePrice) {
         let buyer = highestOffer.member;
-        let seller = listing.vehicle.owner;
-        //give money to seller
-        console.info('#### seller balance before: ' + seller.balance);        
-        seller.balance += highestOffer.bidPrice;
-        console.info('#### seller balance before: ' + seller.balance);   
-        console.info('#### buy balance before: ' + buyer.balance);                
+
+        console.info('highestOffer.member: ' + buyer);        
+
+        //get the owner of the vehicle
+        let buyerAsBytes = await stub.getState(buyer); //get the car from chaincode state
+        if (!buyerAsBytes || buyerAsBytes.toString().length <= 0) {
+          throw new Error('vehicle does not exist: ');
+        }
+
+        buyer = JSON.parse(buyerAsBytes);
+        console.info('buyer: ' );     
+        console.info(util.inspect(buyer, {showHidden: false, depth: null}));
+   
+
+        //get the owner of the vehicle
+        let vehicleAsBytes = await stub.getState(listing.vehicle); //get the car from chaincode state
+        if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
+          throw new Error('vehicle does not exist: ');
+        }
+
+        var vehicle = JSON.parse(vehicleAsBytes);
+        //get the balance of owner
+        let sellerAsBytes = await stub.getState(vehicle.owner); //get the car from chaincode state
+        if (!sellerAsBytes || sellerAsBytes.toString().length <= 0) {
+          throw new Error('vehicle does not exist: ');
+        }
+
+        let seller = JSON.parse(sellerAsBytes);
+
+        console.info('seller: ');
+        console.info(util.inspect(seller, {showHidden: false, depth: null}));
+
+        console.info('#### seller balance before: ' + seller.balance);
+        let sellerBalance = parseInt(seller.balance, 10);
+        let highOfferBidPrice = parseInt(highestOffer.bidPrice, 10);        
+        sellerBalance += highOfferBidPrice;
+        seller.balance = sellerBalance;
+        
+        console.info('#### seller balance after: ' + seller.balance);    
+        console.info('#### buyer balance before: ' + buyer.balance);                        
         buyer.balance -= highestOffer.bidPrice;
-        console.info('#### buy balance after: ' + buyer.balance);                
-        listing.vehicle.owner = buyer;
-
+        console.info('#### buyer balance after: ' + buyer.balance);  
+        //need to put in ID back, so that I can get the key for the buyer!!
+        console.info('#### buyer balance after: ' + buyer.balance);  
+        console.info('#### vehicle owner before: ' + vehicle.owner); 
+        var oldOwner = vehicle.owner         
+        vehicle.owner = highestOffer.member;
+        console.info('#### vehicle owner after: ' + vehicle.owner);                  
+        console.info('#### buyer balance after: ' + buyer.balance);                                        
         listing.offers = null;
+        listing.listingState = 'SOLD'; 
 
+        await stub.putState(highestOffer.member, Buffer.from(JSON.stringify(buyer))); 
+        //update the sellers balance
+        console.info('old owner: ');    
+        console.info(util.inspect(oldOwner, {showHidden: false, depth: null}));      
+        await stub.putState(oldOwner, Buffer.from(JSON.stringify(seller))); 
       }
-
-
     }
+    console.info('inspecting vehicle: ');                                            
+    console.info(util.inspect(vehicle, {showHidden: false, depth: null}));
 
     if (highestOffer) {
-      let vehicleAsBytes = await stub.putState(listing.vehicle); //get the car from chaincode state
-      if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
-        throw new Error(vin + ' does not exist: ');
-      }
-
-      await stub.putState(args[0], Buffer.from(JSON.stringify(listing.vehicle)));
-      
-      console.info('#### after put state: ' + listing.vehicle);                      
+      await stub.putState(listing.vehicle, Buffer.from(JSON.stringify(vehicle))); 
+      //update the buyers balance
+    } else { throw new Error('offers do not exist: '); }
 
 
-    }
 
-    // await stub.putState(args[0], Buffer.from(JSON.stringify(listing.vehicle)));
-    console.info('============= END : Create Car ===========');
+    console.info('============= END : closeBidding ===========');
   }
 };
 
-shim.start(new Chaincode());
+shim.start(new Chaincode()); 
+
+    // console.info("auctioneer: " + JSON.stringify(auctioneer));
+    // console.info("member1: " + JSON.stringify(member1));    
+    // console.info("member2: " + JSON.stringify(member2));    
+    // console.info("vehicle: " + JSON.stringify(vehicle));   
+
+
+    
+    
+    // let auction = await stub.getState(auctioneer.email); //get the car from chaincode state
+    // console.info("auction: " + JSON.stringify(auction));
+    // if (!auction || auction.toString().length <= 0) {
+    //   throw new Error('auction' + ' does not exist: ');
+    // }
+
+    // var listingJson = JSON.parse(listingAsBytes);
+    // console.log('util.inspect');
+    // console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
+    // await stub.putState(args[0], Buffer.from(JSON.stringify(member1))); 
+    
+    // let member = await stub.getState('memberA@acme.org'); //get the car from chaincode state
+    // if (!member || member.toString().length <= 0) {
+    //   throw new Error('member' + ' does not exist: ');
+    // }
+
+    // var memberJson = JSON.parse(member);
+    // console.log('util.inspect');
+    // console.log(util.inspect(memberJson, {showHidden: false, depth: null}));
+
+    // await stub.putState(args[0], Buffer.from(JSON.stringify(member1)));
+
+
+
+
+
+
+
+
+
+    // var listingJson = JSON.parse(listingAsBytes);
+    // console.log('util.inspect');
+    // console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
+
+    // if (!listingJson.offers) {
+    //   console.info('offers is non-existant ');
+    //   listingJson.offers = [];
+    // }
+  
+    // listingJson.offers.push(offer);
+    // console.log('after push: ' + listingJson);
+    // console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
+
+    // await stub.putState(args[0], Buffer.from(JSON.stringify(listingJson)));
+
+    // let listingAsBytes2 = await stub.getState(listing); //get the car from chaincode state
+    // if (!listingAsBytes2 || listingAsBytes2.toString().length <= 0) {
+    //   throw new Error(listing + ' does not exist: ');
+    // }
+
+    // var listingJson2 = JSON.parse(listingAsBytes2);
+    // console.info('util.inspect');
+    // console.info(util.inspect(listingJson2, {showHidden: false, depth: null}));
+
+            // console.info('#### seller balance before: ' + seller.balance);        
+        // seller.balance += highestOffer.bidPrice;
+        // console.info('#### seller balance before: ' + seller.balance);   
+        // console.info('#### buy balance before: ' + buyer.balance);                
+        // buyer.balance -= highestOffer.bidPrice;
+        // console.info('#### buy balance after: ' + buyer.balance);                
+        // listing.vehicle.owner = buyer;
+        // listing.offers = null;
