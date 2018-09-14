@@ -1,8 +1,8 @@
 /*
-# Copyright IBM Corp. All Rights Reserved.
-#
-# SPDX-License-Identifier: Apache-2.0
-*/
+ * Copyright IBM Corp. All Rights Reserved.
+ *
+ *  SPDX-License-Identifier: Apache-2.0
+ */
 
 'use strict';
 const shim = require('fabric-shim');
@@ -11,7 +11,7 @@ const util = require('util');
 let Chaincode = class {
 
   /**
-   * The Init method is called when the Smart Contract 'fabcar' is instantiated by the 
+   * The Init method is called when the Smart Contract 'carauction' is instantiated by the 
    * blockchain network. Best practice is to have any Ledger initialization in separate
    * function -- see initLedger()
    */
@@ -21,7 +21,7 @@ let Chaincode = class {
   }
   /**
    * The Invoke method is called as a result of an application request to run the 
-   * Smart Contract 'fabcar'. The calling application program has also specified 
+   * Smart Contract 'carauction'. The calling application program has also specified 
    * the particular smart contract function to be called, with arguments
    */
   async Invoke(stub) {
@@ -45,7 +45,7 @@ let Chaincode = class {
   /**
    * The initLedger method is called as a result of instantiating chaincode. 
    * It can be thought of as a constructor for the network. For this network 
-   * we will create an auctioneer, 3 members, a vehicle, and a vehicle listing.
+   * we will create 3 members, a vehicle, and a vehicle listing.
    */
   async initLedger(stub, args) {
     console.info('============= START : Initialize Ledger ===========');
@@ -76,7 +76,6 @@ let Chaincode = class {
     vehicleListing.offers = "";
     vehicleListing.vehicle = "1234";
 
-    // await stub.putState('auction@acme.org', Buffer.from(JSON.stringify(auctioneer)));
     await stub.putState('memberA@acme.org', Buffer.from(JSON.stringify(member1)));
     await stub.putState('memberB@acme.org', Buffer.from(JSON.stringify(member2)));
     await stub.putState('memberC@acme.org', Buffer.from(JSON.stringify(member2)));
@@ -116,12 +115,11 @@ let Chaincode = class {
    * Create a vehicle object in the state  
    * @param arg[0] - key for the car (vehicle id number)
    * @param arg[1] - owner of the car - should reference the email of a member
-   * @param arg[2] - type of object: vehicle
    * onSuccess - create and update the state with a new vehicle object  
    */
   async createVehicle(stub, args) {
     console.info('============= START : Create Car ===========');
-    if (args.length != 3) {
+    if (args.length != 2) {
       throw new Error('Incorrect number of arguments. Expecting 2');
     }
 
@@ -133,7 +131,7 @@ let Chaincode = class {
     console.info('============= END : Create Car ===========');
   }
 
-   /**
+  /**
    * Create a vehicle listing object in the state  
    * @param arg[0] - key for the vehicle listing (listing number)
    * @param arg[1] - reservePrice, or the minimum acceptable offer for a vehicle
