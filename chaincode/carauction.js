@@ -50,12 +50,6 @@ let Chaincode = class {
   async initLedger(stub, args) {
     console.info('============= START : Initialize Ledger ===========');
 
-    // let auctioneer = {};
-    // auctioneer.firstName = "Jenny";
-    // auctioneer.lastName = "Jones";
-    // console.info('======After auctioneer ===========');
-    // console.info("auctioneer: " + JSON.stringify(auctioneer));
-
     let member1 = {};
     member1.balance = 5000;
     member1.firstName = "Amy";
@@ -192,23 +186,6 @@ let Chaincode = class {
     await stub.putState(args[0], Buffer.from(JSON.stringify(member)));
     console.info('============= END : Create Car ===========');
   }
-
-  // async createAuctioneer(stub, args) {
-  //   console.info('============= START : Create Car ===========');
-  //   if (args.length != 3) {
-  //     throw new Error('Incorrect number of arguments. Expecting 3');
-  //   }
-
-  //   var auctioneer = {
-  //     firstName: args[1],
-  //     lastName: args[2],
-  //     type: args[3]
-  //   };
-
-  //   await stub.putState(args[0], Buffer.from(JSON.stringify(auctioneer)));
-  //   console.info('============= END : Create Car ===========');
-  // }
-
 
   /**
    * Create a offer object in the state, and add it to the array of offers for that listing  
