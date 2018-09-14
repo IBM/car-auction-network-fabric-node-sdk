@@ -61,6 +61,12 @@ let Chaincode = class {
     member2.firstName = "Billy";
     member2.lastName = "Thompson";
     member2.type = "member";
+
+    let member3 = {};
+    member3.balance = 5000;
+    member3.firstName = "Tom";
+    member3.lastName = "Werner";
+    member3.type = "member";
     
     let vehicle = {};
     vehicle.owner = "memberA@acme.org";
@@ -77,6 +83,7 @@ let Chaincode = class {
     await stub.putState('auction@acme.org', Buffer.from(JSON.stringify(auctioneer)));
     await stub.putState('memberA@acme.org', Buffer.from(JSON.stringify(member1)));
     await stub.putState('memberB@acme.org', Buffer.from(JSON.stringify(member2)));
+    await stub.putState('memberC@acme.org', Buffer.from(JSON.stringify(member2)));    
     await stub.putState('1234', Buffer.from(JSON.stringify(vehicle)));
     await stub.putState('ABCD', Buffer.from(JSON.stringify(vehicleListing)));
 
@@ -193,12 +200,45 @@ let Chaincode = class {
     //get listing
     let listing = args[1];
     console.info("listing: " + listing);    
+
+    //check to ensure bidder can't bid on own item! That's bad and punishable by law :o!
     
     let listingAsBytes = await stub.getState(listing); //get the car from chaincode state
     if (!listingAsBytes || listingAsBytes.toString().length <= 0) {
       throw new Error(listing + ' does not exist: ');
     }
     listing = JSON.parse(listingAsBytes);
+
+    let vehicleAsBytes = await stub.getState(listing.vehicle); //get the car from chaincode state
+    if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
+      throw new Error(listing.vehicle + ' does not exist: ');
+    }
+
+    let vehicle = JSON.parse(vehicleAsBytes);
+
+    //Check to see if member has enough balance in their account to make the bid
+
+    let memberAsBytes = await stub.getState(offer.member); //get the car from chaincode state
+    if (!memberAsBytes || memberAsBytes.toString().length <= 0) {
+      throw new Error(listing + ' does not exist: ');
+    }
+    let member = JSON.parse(memberAsBytes);
+
+    if (member.balance < offer.bidPrice) {
+      throw new Error('The bid is higher than the balance in your account!');      
+    }
+
+
+    console.info("vehicle: ");        
+    console.info(util.inspect(vehicle, {showHidden: false, depth: null}));
+    console.info("offer: ");   
+    console.info(util.inspect(offer, {showHidden: false, depth: null}));
+    
+    if (vehicle.owner == offer.member) {
+      throw new Error('owner cannot bid on own item: ');      
+    }
+
+    //check for shill bidding - when owner bids on own item - this is not allowed
 
     console.info('listing response before pushing to offers: ');    
     console.info(listing);
@@ -239,6 +279,7 @@ let Chaincode = class {
     var listing = JSON.parse(listingAsBytes);
     console.info('listing: ' );     
     console.info(util.inspect(listing, {showHidden: false, depth: null}));
+    listing.listingState = 'RESERVE_NOT_MET';    
     let highestOffer = null;
 
     if (listing.offers && listing.offers.length > 0) {
@@ -318,81 +359,8 @@ let Chaincode = class {
       //update the buyers balance
     } else { throw new Error('offers do not exist: '); }
 
-
-
     console.info('============= END : closeBidding ===========');
   }
 };
 
 shim.start(new Chaincode()); 
-
-    // console.info("auctioneer: " + JSON.stringify(auctioneer));
-    // console.info("member1: " + JSON.stringify(member1));    
-    // console.info("member2: " + JSON.stringify(member2));    
-    // console.info("vehicle: " + JSON.stringify(vehicle));   
-
-
-    
-    
-    // let auction = await stub.getState(auctioneer.email); //get the car from chaincode state
-    // console.info("auction: " + JSON.stringify(auction));
-    // if (!auction || auction.toString().length <= 0) {
-    //   throw new Error('auction' + ' does not exist: ');
-    // }
-
-    // var listingJson = JSON.parse(listingAsBytes);
-    // console.log('util.inspect');
-    // console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
-    // await stub.putState(args[0], Buffer.from(JSON.stringify(member1))); 
-    
-    // let member = await stub.getState('memberA@acme.org'); //get the car from chaincode state
-    // if (!member || member.toString().length <= 0) {
-    //   throw new Error('member' + ' does not exist: ');
-    // }
-
-    // var memberJson = JSON.parse(member);
-    // console.log('util.inspect');
-    // console.log(util.inspect(memberJson, {showHidden: false, depth: null}));
-
-    // await stub.putState(args[0], Buffer.from(JSON.stringify(member1)));
-
-
-
-
-
-
-
-
-
-    // var listingJson = JSON.parse(listingAsBytes);
-    // console.log('util.inspect');
-    // console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
-
-    // if (!listingJson.offers) {
-    //   console.info('offers is non-existant ');
-    //   listingJson.offers = [];
-    // }
-  
-    // listingJson.offers.push(offer);
-    // console.log('after push: ' + listingJson);
-    // console.log(util.inspect(listingJson, {showHidden: false, depth: null}));
-
-    // await stub.putState(args[0], Buffer.from(JSON.stringify(listingJson)));
-
-    // let listingAsBytes2 = await stub.getState(listing); //get the car from chaincode state
-    // if (!listingAsBytes2 || listingAsBytes2.toString().length <= 0) {
-    //   throw new Error(listing + ' does not exist: ');
-    // }
-
-    // var listingJson2 = JSON.parse(listingAsBytes2);
-    // console.info('util.inspect');
-    // console.info(util.inspect(listingJson2, {showHidden: false, depth: null}));
-
-            // console.info('#### seller balance before: ' + seller.balance);        
-        // seller.balance += highestOffer.bidPrice;
-        // console.info('#### seller balance before: ' + seller.balance);   
-        // console.info('#### buy balance before: ' + buyer.balance);                
-        // buyer.balance -= highestOffer.bidPrice;
-        // console.info('#### buy balance after: ' + buyer.balance);                
-        // listing.vehicle.owner = buyer;
-        // listing.offers = null;
