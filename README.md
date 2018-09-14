@@ -39,7 +39,31 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 # Steps
 
-<!-- ## Deploy to IBM Cloud -->
+1. [Clone the repo](#1-clone-the-repo)
+2. [Enroll Admin](#2-enroll-admin)
+
+
+## Step 1. Clone the repo
+The first thing we need to do is clone the repo on your local computer.
+
+```
+git clone https://github.com/horeaporutiu/carauction-network.git
+```
+Then, go ahead and go into the directory:
+
+```cd carauction-network```
+
+## Step 2. Enroll Admin 
+
+Now we have to go ahead and download the connection profile from the IBM Blockchain Starter Plan, and then rename the file to `creds.json`. Move this file to this current directory, since we will need to reference it soon.
+
+Open enrolladmin.js in an editor of your choice. 
+
+
+
+
+
+
 
 
 <!-- [![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-second-opinion) -->
