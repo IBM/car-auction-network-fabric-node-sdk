@@ -57,11 +57,55 @@ Then, go ahead and go into the directory:
  ![packageFile](/docs/enrollAdmin.gif)
 
 First, we need to generate the necessary keys and certs from the Certificate Authority to prove our authenticity to the network.
-To do this, we will go into our new IBM Blockchain Starter Plan network, and from the `Overview` Tab on the left, we will click on `Connection Profile` on the right-side of the page. Then click on `Download`. 
+To do this, we will go into our new IBM Blockchain Starter Plan network, and from the `Overview` Tab on the left, we will click on `Connection Profile` on the right-side of the page. Then click on `Raw JSON`.
 
-If you check your downloaded files now, you should have a file starting with `cred` ending in `.json`. Let's rename this file to `creds.json` and move this file to the root of our carauction-network directory.
+Open `enrolladmin.js` in an editor of your choice. I prefer VSCode.
 
-Open `enrolladmin.js` and the newly downloaded `creds.json` in an editor of your choice. I prefer VSCode.
+Down around line 40 of the file, you will see a new instance of the Fabric_CA_Client. This is where we
+need to give our application the necessary endpoints of our CA from our IBM Blockchain Starter Plan.
+
+We will need 4 things from the Certificate Authority
+1) `enrollId` - should be "admin"
+2) `enrollSecret` - should be similar to "1dcab332aa"
+3) `url` - should be similar to 
+"nde288ef7dd7542d3a1cc824a02be67f1-org1-ca.us02.blockchain.ibm.com:31011"
+4) `caName` - should be "org1CA"
+
+Your code should look something like this when finished:
+
+```fabric_ca_client = new Fabric_CA_Client('https://admin:4352f3499a@nd61fdbe87a194a10bde3cccdb90d427e-org1-ca.us04.blockchain.ibm.com:31011',
+     null ,"org1CA", crypto_suite);
+     ```
+
+Once you fill out the necessary info as shown in the gif above, move down to the call to 
+enroll the CA. You will need to add in the enrollSecret there again. Should be around 
+line 55. 
+
+Your code should look something like this when finished (note, this is just a small chunk of the code)
+
+```
+return fabric_ca_client.enroll({
+          enrollmentID: 'admin',
+          enrollmentSecret: '4252f3499a'
+        }).then((enrollment) =>
+```
+
+Save your file, and run npm install:
+
+```npm install```
+
+Then, run this command to enroll the admin:
+
+```
+node enrollAdmin.js
+```
+
+
+
+
+<!-- If you check your downloaded files now, you should have a file starting with `cred` ending in `.json`. Let's rename this file to `creds.json` and move this file to the root of our carauction-network directory.
+
+Open `enrolladmin.js` and the newly downloaded `creds.json` in an editor of your choice. I prefer VSCode. -->
 
 
 
