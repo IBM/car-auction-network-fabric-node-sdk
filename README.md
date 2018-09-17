@@ -44,6 +44,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 3. [Register Users](#step-3-register-users)
 4. [Invoking Chaincode](#step-4-invoking-chaincode)
 5. [Running the app](#step-5-running-the-app)
+6. [Querying the ledger](#step-6-querying-the-ledger)
 
 
 ## Step 1. Clone the repo
@@ -237,7 +238,8 @@ This is why our new block reflects this function call.
 ![packageFile](/docs/runApp.gif)
 
 Now that we have connected our app to the IBM Blockchain Platform, each update of the ledger will
-be recorded and added as a block. Let's run our app and see what it can do.
+be recorded and added as a block. Let's run our app and see what it can do. You can find all
+commands that I run in this step at `snips.txt` in this repo.
 
 Go to line 60 of `invoke.js` and copy and paste this code instead what was there before. We are now
 going to call the makeOffer method and pass in 3 arguments as shown in the code below:
@@ -253,13 +255,199 @@ var request = {
   };
 ```
 
-Note that in initLedger we created a car and assigned the owner of the car to be memberA@acme.org. 
+Note that in initLedger we created a car and assigned the owner of the car to be `memberA@acme.org`. 
 Our auction does not allow the owner of car to bid on his/her own car. Thus, this call should give 
-us an error. Let's try it. Save `invoke.js` and then run this command to invoke our app:
+us an error. Let's try it. Save `invoke.js` and then run this command to invoke our app. Note, this 
+step will be repeated 5 more times below, but will exclude it for the sake of repetition. So 
+remember, every time you want to invoke our app, you'll need to change the request variable,
+save the file, and then run the command below: 
 
 ```
 $ node invoke.js
 ```
+
+You should get an error message like this: 
+```
+Assigning transaction_id:  06c289642a2b8cfd6c0cff41411c5b6a6fa45472f4e5af56c6adee3f06d98b71
+[ [ { Error: 2 UNKNOWN: error executing chaincode: transaction returned with failure: Error: owner cannot bid on own item:
+    at...
+```
+
+Next, let's give a successful transaction. Copy and paste the code for the request as follows:
+
+```
+var request = {
+    //targets: let default to the peer assigned to the client
+    chaincodeId: 'carauction',
+    fcn: 'makeOffer',
+    args: ['4000', 'ABCD', 'memberB@acme.org'],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
+```
+This should work, and now we have an offer from MemberB coming in at $4,000. If we check the 
+channel in Starter Plan, we can see the data that was written to the ledger.
+
+Next, let's give another successful offer. Copy and paste the code for the request as follows:
+
+```
+var request = {
+    //targets: let default to the peer assigned to the client
+    chaincodeId: 'carauction',
+    fcn: 'makeOffer',
+    args: ['5000', 'ABCD', 'memberC@acme.org'],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
+```
+
+This will create an offer from Member C coming in at $5,000, which is greater than the reserve price.
+If we check the Starter Plan again, we can see this data being written to the ledger, and the block count
+increasing by one.
+
+Next, let's give an offer that is too high...that is the offer is greater than the balance in the account.
+
+```
+var request = {
+    //targets: let default to the peer assigned to the client
+    chaincodeId: 'carauction',
+    fcn: 'makeOffer',
+    args: ['5001', 'ABCD', 'memberB@acme.org'],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
+```
+Since our members are initialized with a balance of $5,000, this will not work. You should get an error 
+message as follows: 
+
+```
+{ Error: 2 UNKNOWN: error executing chaincode: transaction returned with failure: Error: The bid is higher than the balance in your account!
+```
+
+Lastly, let's close the bidding. Use this code as follows for the request. Save the file and issue the 
+following command, as we have been doing all along up to this point. 
+```
+$ node invoke.js
+```
+
+You should get a successful response. If you check the output of the block details, we can see 
+that the new owner of the car is MemberC. We also see that Member C now has $0 in their balance,
+since they had $5,000 to start with, and their bid of $5,000 won the auction. That means that 
+the new owner is Member C, and that Member A, the original owner of the car, will be credited
+$5,000. This is reflected on the ledger - Member A now has a balance of $10,000. Lastly,
+if we check the vehicle listing, we can see that the status is `SOLD`.
+
+Awesome! You just successfully ran an auction app while using Hyperledger Fabric Node SDK + IBM Blockchain
+Starter Plan. There's only one more thing I want to show you before you leave...
+
+## Step 6. Querying the Ledger
+![packageFile](/docs/query.gif)
+
+Now that we have submitted transactions on the ledger, we can query the ledger at any point, using the 
+key corresponding to that object. So first, let's query Member A. This is the member that just won 
+the auction, so they should have $10,000 in their account. To query, open up `query.js` in the editor
+of your choice. Just like `invoke.js` there is a request variable that allows us to pass in a 
+key to query the ledger. Let's pass in `memberA@acme.org` for the key. The request variable
+on line 55, should as follows:
+
+  const request = {
+    //targets : --- letting this default to the peers assigned to the channel
+    chaincodeId: 'carauction',
+    fcn: 'query',
+    args: ['memberA@acme.org']
+  };
+
+Our response should look something like this:
+
+```
+Response is  {"balance":10000,"firstName":"Amy","lastName":"Williams"}
+```
+
+We can query memberB as follows, but this is not too interesting since memberB 
+did not win the auction. The output for querying memberB is as follows:
+
+```
+Response is  {"balance":5000,"firstName":"Billy","lastName":"Thompson"}
+```
+
+Now, if we query memberC, we should see that their balance is 0. The 
+request should look as follows for memberC:
+
+```
+  const request = {
+    //targets : --- letting this default to the peers assigned to the channel
+    chaincodeId: 'carauction',
+    fcn: 'query',
+    args: ['memberC@acme.org']
+  };
+```
+
+With the response being:
+
+```
+Response is  {"balance":0,"firstName":"Tom","lastName":"Werner"}
+```
+
+Now if we query the vehicle number, we should see the owner be memberC. Let's 
+do that with the following request:
+
+```
+  const request = {
+    //targets : --- letting this default to the peers assigned to the channel
+    chaincodeId: 'carauction',
+    fcn: 'query',
+    args: ['1234']
+  };
+```
+
+The response:
+
+```
+Response is  {"owner":"memberC@acme.org"}
+```
+
+Lastly, and most interestingly, let's query our vehicle listing. It should show up
+as being SOLD, and should have no offers.
+
+The request:
+
+```
+  const request = {
+    //targets : --- letting this default to the peers assigned to the channel
+    chaincodeId: 'carauction',
+    fcn: 'query',
+    args: ['ABCD']
+  };
+```
+
+The response:
+
+```
+Response is  {"description":"Arium Nova","listingState":"SOLD","offers":null,"reservePrice":3500,"vehicle":"1234"}
+```
+
+🙌🏼🙌🏼🙌🏼
+
+Ok. That's it! I showed you how to register your application and then register users 
+to your application using certificates provided by the Certificate Authority. Next,
+I showed you how to download your connection profile and use it to create a 
+channel and add peers and an orderer to that channel. After that, we used the IBM
+Blockchain Starter Plan to install our chaincode on the peers, and then 
+instantiated our network on the defaultchannel. Next, we invoked our chaincode 
+and created some offers on the network. We closed the bidding and saw our ledger
+being updated as Member C won the auction. Lastly, we learned how to query the 
+ledger to ensure that our data looks how we intend it to look.
+
+Hope you learned something, and if you find anything missing, please open an issue
+on this repo!
+
+
+
+
+
+
+
+
 
 
 
