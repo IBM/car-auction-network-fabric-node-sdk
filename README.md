@@ -42,7 +42,8 @@ When the reader has completed this Code Pattern, they will understand how to:
 1. [Clone the repo](#step-1-clone-the-repo)
 2. [Enroll App](#step-2-enroll-app)
 3. [Register Users](#step-3-register-users)
-4. [Invoke Chaincode](#step-4-invoke-chaincode)
+4. [Invoking Chaincode](#step-4-invoking-chaincode)
+5. [Running the app](#step-5-running-the-app)
 
 
 ## Step 1. Clone the repo
@@ -231,6 +232,35 @@ If you look around line 60 of `invoke.js` you should see this:
 ```
 This is where we call the different functions in our chaincode. By default, we call initLedger.
 This is why our new block reflects this function call. 
+
+## Step 5. Running the app 
+
+Now that we have connected our app to the IBM Blockchain Platform, each update of the ledger will
+be recorded and added as a block. Let's run our app and see what it can do.
+
+Go to line 60 of `invoke.js` and copy and paste this code instead what was there before. We are now
+going to call the makeOffer method and pass in 3 arguments as shown in the code below:
+
+```
+var request = {
+    //targets: let default to the peer assigned to the client
+    chaincodeId: 'carauction',
+    fcn: 'makeOffer',
+    args: ['3000', 'ABCD', 'memberA@acme.org'],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
+```
+
+Note that in initLedger we created a car and assigned the owner of the car to be memberA@acme.org. 
+Our auction does not allow the owner of car to bid on his/her own car. Thus, this call should give 
+us an error. Let's try it. Save `invoke.js` and then run this command to invoke our app:
+
+```
+$ node invoke.js
+```
+
+
 
 
 

@@ -1,0 +1,53 @@
+   var request = {
+        //targets: let default to the peer assigned to the client
+        chaincodeId: 'carauction',
+        fcn: 'initLedger',
+        args: [''],
+        chainId: 'mychannel',
+        txId: tx_id
+      };  
+
+var request = {
+    //targets: let default to the peer assigned to the client
+    chaincodeId: 'carauction',
+    fcn: 'makeOffer',
+    args: ['3000', 'ABCD', 'memberA@acme.org'],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
+
+var request = {
+    //targets: let default to the peer assigned to the client
+    chaincodeId: 'carauction',
+    fcn: 'makeOffer',
+    args: ['4000', 'ABCD', 'memberB@acme.org'],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
+
+var request = {
+    //targets: let default to the peer assigned to the client
+    chaincodeId: 'carauction',
+    fcn: 'makeOffer',
+    args: ['5000', 'ABCD', 'memberC@acme.org'],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
+
+var request = {
+    //targets: let default to the peer assigned to the client
+    chaincodeId: 'carauction',
+    fcn: 'makeOffer',
+    args: ['5001', 'ABCD', 'memberB@acme.org'],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
+
+    var request = {
+        //targets: let default to the peer assigned to the client
+        chaincodeId: 'carauction',
+        fcn: 'closeBidding',
+        args: ['ABCD'],
+        chainId: 'mychannel',
+        txId: tx_id
+      };
