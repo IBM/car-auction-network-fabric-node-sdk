@@ -45,6 +45,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 4. [Invoking Chaincode](#step-4-invoking-chaincode)
 5. [Running the app](#step-5-running-the-app)
 6. [Querying the ledger](#step-6-querying-the-ledger)
+7. [Conclusion](#step-7-conclusion)
 
 
 ## Step 1. Clone the repo
@@ -440,10 +441,12 @@ The response:
 ```
 Response is  {"description":"Arium Nova","listingState":"SOLD","offers":null,"reservePrice":3500,"vehicle":"1234"}
 ```
+## Step 7. Conclusion
+Congrats!
 
 🙌🏼🙌🏼🙌🏼
 
-Ok. That's it! I showed you how to register your application and then register users 
+That's it! I showed you how to register your application and then register users 
 to your application using certificates provided by the Certificate Authority. Next,
 I showed you how to download your connection profile and use it to create a 
 channel and add peers and an orderer to that channel. After that, we used the IBM
