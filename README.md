@@ -160,13 +160,6 @@ Now, we need to download the connection profile, and move it to our current work
 From the `Overview` in IBM Blockchain Platform, click on `Download`. Go to your recent 
 downloads, and move the file to the `carauction-network` directory. 
 
-Open `invoke.js` in the editor of your choice. You'll see at the top of the file
-we import our connection profile from IBM Blockchain Platform with this line: 
-
-```
-var creds = require('./creds.json');
-```
-
 Next, we need to install the chaincode on the peers. Then, we will need to instantiate the chaincode. 
 From the `Overview` tab on the left, click on `Install Code`. Then, click on `Install Chaincode` on 
 the right. 
@@ -181,6 +174,45 @@ Choose your chaincode files from the carauction directory. This is very importan
 select both `carauction.js` and `package.json`.
 
 Then click `Submit`.
+
+Once the chaincode in installed, we need to instantiate it. From the same screen, click on the 
+3-dot symbol under `Actions`. Then click `Instantiate`.
+
+For `Chaincode Type` select `Node`. Then click `Next`. Next, leave the defaults on the next screen,
+which show a simple endorsement policy. Just click `Submit`.
+
+Next, let's click on the `Channels` tab on the left side. Then click on the `defaultchannel`.
+You should see the `total blocks` and `time since last transaction`. If we click on the 
+block number, we can see our `initLedger` function being called, and the data that was 
+written to the ledger.
+
+Open `invoke.js` in the editor of your choice. You'll see at the top of the file
+we import our connection profile from IBM Blockchain Platform with this line: 
+
+```
+var creds = require('./creds.json');
+```
+
+Just save the file and then use this command to invoke chaincode on our network:
+
+```
+$ node invoke.js
+```
+
+If all went well, you should see something like this: 
+
+```
+carauction 👉🏼  node invoke.js
+Store path:/Users/Horea.Porutiu@ibm.com/Workdir/blockchain/carauction/hfc-key-store
+Successfully loaded user1 from persistence
+Assigning transaction_id:  812694fba979d495423a40701fed3b221e7d7add2eecde8f9dd9a64827c8aced
+Transaction proposal was good
+Successfully sent Proposal and received ProposalResponse: Status - 200, message - "OK"
+The transaction has been committed on peer n9fb94659f16c4d85a20219df994288bb-org1-peer1.us03.blockchain.ibm.com:31002
+Send transaction promise and event listener promise have completed
+Successfully sent transaction to the orderer.
+Successfully committed the change to the ledger by the peer
+```
 
 
 
