@@ -41,6 +41,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 1. [Clone the repo](#1-clone-the-repo)
 2. [Enroll App](#2-enroll-app)
+3. [Register Users](#3-register-users)
 
 
 ## Step 1. Clone the repo
@@ -92,13 +93,60 @@ return fabric_ca_client.enroll({
 
 Save your file, and run npm install:
 
-```npm install```
+```
+$ npm install
+```
 
 Then, run this command to enroll the admin:
 
 ```
-node enrollAdmin.js
+$ node enrollAdmin.js
 ```
+
+If all went well, you should get a response like this.
+
+```
+carauction 👉🏼  node enrollAdmin.js
+ Store path:/Users/Horea.Porutiu@ibm.com/Workdir/blockchain/carauction/hfc-key-store
+(node:86820) 
+Successfully enrolled admin user "admin"
+Assigned the admin user to the fabric client ::{"name":"admin","mspid":"org1","roles":null,"affiliation":"","enrollmentSecret":"","enrollment":{"signingIdentity":"b*4d7843af972bcfb7dac51f641458af95a54b4904d98da67e5b1db934adf35a","identity":{"certificate":"-----BEGIN CERTIFICATE-----\nMIIB8TCCAZigAwIBAgIULHILXwt3DhxQSW7gdzNmziY18iAwCgYIKoZIzj0EAwIw\nbzELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK\nEwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMSAwHgYDVQQDExdmYWJyaWMt\nY2Etc2VydmVyLW9yZzFDQTAeF*0xODA5MTcxODMxMDBaFw0xOTA5MTcxODM2MDBa\nMCExDzANBgNVBAsTBmNsaWVudDEOMAwGA1UEAxMFYWRtaW4wWTATBgcqhkjOPQIB\nBggqhkjOPQMBBwNCAAQIDN3iZJeoQbFE7+3ShqlhQd6cYsxrOAWs3nGlv/SC+qQV\nQd33uwkkbcs8PTVlWgM6FsmoNZfMEhx5LH1pW+y0o2AwXjAOBgNVHQ8BAf8EBAMC\nB4AwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUuI4+VTbgNTXcnYg+8qpGXf/mUmIw\nHwYDVR0jBBgwFoAUo/8jv0agwT3tol8HsbOmorxdijkwCgYIKoZIzj0EAwIDRwAw\nRAIgTEJKJL6/U/wMgxqG25K5NW4A5+ie1vG9qi7zP98wVVoCIB7hV0en6cV3nI9L\nMdWPTvgrB67CCL8Ay+yJ25B8hMO9\n-----END CERTIFICATE-----\n"}}}
+```
+
+## Step 3. Register Users 
+![packageFile](/docs/registerUser.gif)
+
+Now that we have generated our client side certificates, and stored them in `htc-key-store`, we need
+to register our application so that the network recongnizes it. 
+
+Open `registerUser.js` in the editor of your choice. On line 42, we can see a new instance of the 
+Fabric_ca_client being created. We can simply copy our existing instance from `enrollAdmin.js`. This is 
+very important <b> your URL should bbe the same as in `enrollAdmin.js` </b>.
+
+After you copy and paste, the code in `registerUser.js` should look like this on line 42, except
+your credentials will be different than mine:
+
+```
+fabric_ca_client = new Fabric_CA_Client('https://admin:4352f3499a@nd61fdbe87a194a10bde3cccdb90d427e-org1-ca.us04.blockchain.ibm.com:31011', null ,"org1CA", crypto_suite);
+```
+
+Now, run this command to register and enroll `user1`. You can only register an identity once. If you 
+get errors, it is probably since that user is already registered - you can try it with a different name. 
+
+```
+$ node registerUser.js 
+```
+
+If successful, output should be something like this: 
+
+```
+carauction 👉🏼  node registerUser.js
+ Store path:/Users/Horea.Porutiu@ibm.com/Workdir/blockchain/carauction/hfc-key-store
+Successfully loaded admin from persistence
+Successfully registered user1 - secret:OnqVuU*tCwPU
+Successfully enrolled member user "user1"User1 was successfully registered and enrolled and is ready to interact with the fabric network
+```
+
 
 
 
