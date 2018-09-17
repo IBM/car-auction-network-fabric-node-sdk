@@ -154,6 +154,7 @@ Successfully enrolled member user "user1"User1 was successfully registered and e
 🙌🏼 Nice! You are almost there!
 
 ## Step 4. Invoking Chaincode 
+![packageFile](/docs/invoke.gif)
 
 Now, we need to download the connection profile, and move it to our current working directory. 
 From the `Overview` in IBM Blockchain Platform, click on `Download`. Go to your recent 
