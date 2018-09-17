@@ -40,7 +40,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 # Steps
 
 1. [Clone the repo](#1-clone-the-repo)
-2. [Enroll Admin](#2-enroll-admin)
+2. [Enroll App](#2-enroll-app)
 
 
 ## Step 1. Clone the repo
@@ -53,11 +53,19 @@ Then, go ahead and go into the directory:
 
 ```cd carauction-network```
 
-## Step 2. Enroll Admin 
+## Step 2. Enroll App 
+ ![packageFile](/docs/enrollAdmin.gif)
 
-Now we have to go ahead and download the connection profile from the IBM Blockchain Starter Plan, and then rename the file to `creds.json`. Move this file to this current directory, since we will need to reference it soon.
+First, we need to generate the necessary keys and certs from the Certificate Authority to prove our authenticity to the network.
+To do this, we will go into our new IBM Blockchain Starter Plan network, and from the `Overview` Tab on the left, we will click on `Connection Profile` on the right-side of the page. Then click on `Download`. 
 
-Open enrolladmin.js in an editor of your choice. 
+If you check your downloaded files now, you should have a file starting with `cred` ending in `.json`. Let's rename this file to `creds.json` and move this file to the root of our carauction-network directory.
+
+Open `enrolladmin.js` and the newly downloaded `creds.json` in an editor of your choice. I prefer VSCode.
+
+
+
+
 
 
 
