@@ -42,6 +42,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 1. [Clone the repo](#1-clone-the-repo)
 2. [Enroll App](#2-enroll-app)
 3. [Register Users](#3-register-users)
+4. [Invoke Chaincode](#3-invoke-chaincode)
 
 
 ## Step 1. Clone the repo
@@ -121,7 +122,7 @@ to register our application so that the network recongnizes it.
 
 Open `registerUser.js` in the editor of your choice. On line 42, we can see a new instance of the 
 Fabric_ca_client being created. We can simply copy our existing instance from `enrollAdmin.js`. This is 
-very important <b> your URL should bbe the same as in `enrollAdmin.js` </b>.
+very important <b> your URL should be the same as in `enrollAdmin.js` </b>.
 
 After you copy and paste, the code in `registerUser.js` should look like this on line 42, except
 your credentials will be different than mine:
@@ -130,8 +131,11 @@ your credentials will be different than mine:
 fabric_ca_client = new Fabric_CA_Client('https://admin:4352f3499a@nd61fdbe87a194a10bde3cccdb90d427e-org1-ca.us04.blockchain.ibm.com:31011', null ,"org1CA", crypto_suite);
 ```
 
+Note that from the first gif to the second gif that my credentials changed. That is just 
+because I needed to get a new network. Yours will remain the same.  
+
 Now, run this command to register and enroll `user1`. You can only register an identity once. If you 
-get errors, it is probably since that user is already registered - you can try it with a different name. 
+get errors, it is probably because that user is already registered - you can try it with a different name. 
 
 ```
 $ node registerUser.js 
@@ -146,6 +150,42 @@ Successfully loaded admin from persistence
 Successfully registered user1 - secret:OnqVuU*tCwPU
 Successfully enrolled member user "user1"User1 was successfully registered and enrolled and is ready to interact with the fabric network
 ```
+
+🙌🏼 Nice! You are almost there!
+
+## Step 4. Invoking Chaincode 
+
+Now, we need to download the connection profile, and move it to our current working directory. 
+From the `Overview` in IBM Blockchain Platform, click on `Download`. Go to your recent 
+downloads, and move the file to the `carauction-network` directory. 
+
+Open `invoke.js` in the editor of your choice. You'll see at the top of the file
+we import our connection profile from IBM Blockchain Platform with this line: 
+
+```
+var creds = require('./creds.json');
+```
+
+Next, we need to install the chaincode on the peers. Then, we will need to instantiate the chaincode. 
+From the `Overview` tab on the left, click on `Install Code`. Then, click on `Install Chaincode` on 
+the right. 
+
+```
+Chaincode ID: carauction  
+Chaincode Version: 1
+Chaincode Type: Node
+```
+
+Choose your chaincode files from the carauction directory. This is very important. You need to 
+select both `carauction.js` and `package.json`.
+
+Then click `Submit`.
+
+
+
+
+
+
 
 
 
