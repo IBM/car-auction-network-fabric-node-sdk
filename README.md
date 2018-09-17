@@ -363,12 +363,14 @@ of your choice. Just like `invoke.js` there is a request variable that allows us
 key to query the ledger. Let's pass in `memberA@acme.org` for the key. The request variable
 on line 55, should as follows:
 
+```
   const request = {
     //targets : --- letting this default to the peers assigned to the channel
     chaincodeId: 'carauction',
     fcn: 'query',
     args: ['memberA@acme.org']
   };
+```
 
 Our response should look something like this:
 
