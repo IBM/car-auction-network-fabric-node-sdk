@@ -73,9 +73,9 @@ We will need 4 things from the Certificate Authority
 
 Your code should look something like this when finished:
 
-```fabric_ca_client = new Fabric_CA_Client('https://admin:4352f3499a@nd61fdbe87a194a10bde3cccdb90d427e-org1-ca.us04.blockchain.ibm.com:31011',
-     null ,"org1CA", crypto_suite);
-     ```
+```
+fabric_ca_client = new Fabric_CA_Client('https://admin:4352f3499a@nd61fdbe87a194a10bde3cccdb90d427e-org1-ca.us04.blockchain.ibm.com:31011', null ,"org1CA", crypto_suite);
+```
 
 Once you fill out the necessary info as shown in the gif above, move down to the call to 
 enroll the CA. You will need to add in the enrollSecret there again. Should be around 
