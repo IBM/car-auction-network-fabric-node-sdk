@@ -78,7 +78,7 @@ let Chaincode = class {
 
     await stub.putState('memberA@acme.org', Buffer.from(JSON.stringify(member1)));
     await stub.putState('memberB@acme.org', Buffer.from(JSON.stringify(member2)));
-    await stub.putState('memberC@acme.org', Buffer.from(JSON.stringify(member2)));
+    await stub.putState('memberC@acme.org', Buffer.from(JSON.stringify(member3)));
     await stub.putState('1234', Buffer.from(JSON.stringify(vehicle)));
     await stub.putState('ABCD', Buffer.from(JSON.stringify(vehicleListing)));
 
