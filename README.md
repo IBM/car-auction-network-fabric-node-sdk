@@ -214,6 +214,28 @@ Successfully sent transaction to the orderer.
 Successfully committed the change to the ledger by the peer
 ```
 
+Lastly, we can refresh our page where we can see the details of `defaultchannel` and we 
+should see a our total blocks increase by one. This is due to our last call to `invoke.js`. 
+
+If you look around line 60 of `invoke.js` you should see this: 
+
+```
+    var request = {
+        //targets: let default to the peer assigned to the client
+        chaincodeId: 'carauction',
+        fcn: 'initLedger',
+        args: [''],
+        chainId: 'mychannel',
+        txId: tx_id
+      };
+```
+This is where we call the different functions in our chaincode. By default, we call initLedger.
+This is why our new block reflects this function call. 
+
+
+
+
+
 
 
 
