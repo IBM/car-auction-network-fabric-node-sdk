@@ -39,10 +39,10 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 # Steps
 
-1. [Clone the repo](#1-clone-the-repo)
-2. [Enroll App](#2-enroll-app)
-3. [Register Users](#3-register-users)
-4. [Invoke Chaincode](#3-invoke-chaincode)
+1. [Clone the repo](#step-1-clone-the-repo)
+2. [Enroll App](#step-2-enroll-app)
+3. [Register Users](#step-3-register-users)
+4. [Invoke Chaincode](#step-4-invoke-chaincode)
 
 
 ## Step 1. Clone the repo
