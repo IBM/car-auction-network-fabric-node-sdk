@@ -234,6 +234,7 @@ This is where we call the different functions in our chaincode. By default, we c
 This is why our new block reflects this function call. 
 
 ## Step 5. Running the app 
+![packageFile](/docs/runApp.gif)
 
 Now that we have connected our app to the IBM Blockchain Platform, each update of the ledger will
 be recorded and added as a block. Let's run our app and see what it can do.
