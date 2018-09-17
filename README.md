@@ -324,7 +324,20 @@ message as follows:
 { Error: 2 UNKNOWN: error executing chaincode: transaction returned with failure: Error: The bid is higher than the balance in your account!
 ```
 
-Lastly, let's close the bidding. Use this code as follows for the request. Save the file and issue the 
+Lastly, let's close the bidding. Use this code as follows for the request:
+
+```
+  var request = {
+    //targets: let default to the peer assigned to the client
+    chaincodeId: 'carauction',
+    fcn: 'closeBidding',
+    args: ['ABCD'],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
+```
+
+Save the file and issue the 
 following command, as we have been doing all along up to this point. 
 ```
 $ node invoke.js
