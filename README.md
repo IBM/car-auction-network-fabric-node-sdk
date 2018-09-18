@@ -35,9 +35,10 @@ Authority
 * [IBM Blockchain](https://www.ibm.com/blockchain): Blockchain is a shared, immutable ledger for recording the history of transactions.
 * [Cloud](https://www.ibm.com/developerworks/learn/cloud/): Accessing computer and information technology resources through the Internet.
 
-<!-- ## Watch the Video -->
+# Watch the Video
 
 [![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=Gz5ePIEh-3w)
+
 # Prerequisites
 1. If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
 2. In your IBM Cloud accout, create a Blockchain Starter Plan service on your IBM Cloud account, as shown below:
