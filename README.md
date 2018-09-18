@@ -35,9 +35,13 @@ Authority
 * [IBM Blockchain](https://www.ibm.com/blockchain): Blockchain is a shared, immutable ledger for recording the history of transactions.
 * [Cloud](https://www.ibm.com/developerworks/learn/cloud/): Accessing computer and information technology resources through the Internet.
 
-# Watch the Video
+# Watch the Video - Setting up the Node app (Part 1)
 
-[![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=Gz5ePIEh-3w)
+[![](docs/part1.jpg)](https://www.youtube.com/watch?v=3a8ElLxyQAc)
+
+# Watch the Video - Invoking the Node app (Part 2)
+
+[![](docs/part2.jpg)](https://www.youtube.com/watch?v=R16yLvs6Aeo)
 
 # Prerequisites
 1. If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
@@ -469,7 +473,7 @@ being updated as Member C won the auction. Lastly, we learned how to query the
 ledger to ensure that our data looks how we intend it to look.
 
 Hope you learned something, and if you find anything missing, please open an issue
-on this repo!
+on this repo! :)
 
 
 
