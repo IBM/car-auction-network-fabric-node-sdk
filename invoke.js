@@ -13,7 +13,6 @@ var path = require('path');
 var util = require('util');
 var os = require('os');
 
-//
 var fabric_client = new Fabric_Client();
 
 // setup the fabric network
@@ -23,7 +22,6 @@ channel.addPeer(peer);
 var order = fabric_client.newOrderer(creds.orderers.orderer.url, { pem: creds.orderers.orderer.tlsCACerts.pem , 'ssl-target-name-override': null})
 channel.addOrderer(order);
 
-//
 var member_user = null;
 var store_path = path.join(__dirname, 'hfc-key-store');
 console.log('Store path:'+store_path);
@@ -55,20 +53,15 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	tx_id = fabric_client.newTransactionID();
 	console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
-	// createCar chaincode function - requires 5 args, ex: args: ['CAR12', 'Honda', 'Accord', 'Black', 'Tom'],
-	// changeCarOwner chaincode function - requires 2 args , ex: args: ['CAR10', 'Dave'],
 	// must send the proposal to endorsing peers
-      var request = {
-            //targets: let default to the peer assigned to the client
-            chaincodeId: 'carauction',
-            fcn: 'initLedger',
-            args: [''],
-            chainId: 'mychannel',
-            txId: tx_id
-          };
+  var request = {
+    chaincodeId: 'carauction',
+    fcn: 'initLedger',
+    args: [''],
+    chainId: 'mychannel',
+    txId: tx_id
+  };
     
-    
-
 	// send the transaction proposal to the peers
 	return channel.sendTransactionProposal(request);
 }).then((results) => {
