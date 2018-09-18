@@ -40,8 +40,9 @@ Authority
 <!-- [![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=wwNAEvbxd54&list=PLVztKpIRxvQXhHlMQttCfYZrDN8aELnzP&index=1&t=1s) -->
 # Prerequisites
 1. If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
-2. Create a Blockchain Starter Plan service on your IBM Cloud account, as shown below:
+2. In your IBM Cloud accout, create a Blockchain Starter Plan service on your IBM Cloud account, as shown below:
 ![nyDSaF](https://i.makeagif.com/media/4-11-2018/nyDSaF.gif)
+
 Then, click on `Launch`, after your network is created. All commands in this tutorial that are 
 outside of your editor will be in this newly created network. I will refer to it as "IBM Blockchain Starter Plan" from now on.
 
