@@ -37,7 +37,7 @@ Authority
 
 <!-- ## Watch the Video -->
 
-<!-- [![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=wwNAEvbxd54&list=PLVztKpIRxvQXhHlMQttCfYZrDN8aELnzP&index=1&t=1s) -->
+[![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=Gz5ePIEh-3w)
 # Prerequisites
 1. If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
 2. In your IBM Cloud accout, create a Blockchain Starter Plan service on your IBM Cloud account, as shown below:
