@@ -37,7 +37,7 @@ Authority
 
 # Watch the Video
 
-[![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=Gz5ePIEh-3w)
+[![](docs/youtubePicture.png)](https://www.youtube.com/watch?v=R16yLvs6Aeo)
 
 # Prerequisites
 1. If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
