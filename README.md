@@ -37,11 +37,11 @@ Authority
 
 # Watch the Video - Setting up the Node app (Part 1)
 
-[![](docs/part1.jpg)](https://www.youtube.com/watch?v=3a8ElLxyQAc)
+[![](docs/part1.png)](https://www.youtube.com/watch?v=3a8ElLxyQAc)
 
 # Watch the Video - Invoking the Node app (Part 2)
 
-[![](docs/part2.jpg)](https://www.youtube.com/watch?v=R16yLvs6Aeo)
+[![](docs/part2.png)](https://www.youtube.com/watch?v=R16yLvs6Aeo)
 
 # Prerequisites
 1. If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
