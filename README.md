@@ -23,7 +23,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 ## Flow
 1. User downloads IBM Blockchain Starter Plan connection profile 
-and adds url/secret for Certificate in the Node app
+and adds url/secret for Certificate Authority in the Node app
 2. User enrolls admin, and registers a user with the Certificate Authority
 3. User installs, instantiaties, and invokes carauction chaincode on the peer
 4. Ledger is updated, blocks are added to the Starter Plan service, and the response is sent to Node app.
