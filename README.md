@@ -68,12 +68,12 @@ outside of your editor will be in this newly created network. I will refer to it
 The first thing we need to do is clone the repo on your local computer.
 
 ```
-$ git clone https://github.com/horeaporutiu/carauction-network.git
+$ git clone https://github.com/IBM/car-auction-network-fabric-node-sdk
 ```
 Then, go ahead and go into the directory:
 
 ```
-$ cd carauction-network
+$ cd car-auction-network-fabric-node-sdk
 ```
 
 ## Step 2. Enroll App 
