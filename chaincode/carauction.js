@@ -281,7 +281,7 @@ let Chaincode = class {
     //check if listing exists
     let listingAsBytes = await stub.getState(listingKey);
     if (!listingAsBytes || listingAsBytes.toString().length <= 0) {
-      throw new Error(vin + ' does not exist: ');
+      throw new Error('listing does not exist: ');
     }
     console.info('============= listing exists ===========');
 
@@ -352,7 +352,7 @@ let Chaincode = class {
         console.info('#### buyer balance after: ' + buyerBalance);
         console.info('#### buyer balance after: ' + buyerBalance);
         console.info('#### vehicle owner before: ' + vehicle.owner);
-        let oldOwner = vehicle.owner
+        let oldOwner = vehicle.owner;
         //assign person with highest bid as new owner
         vehicle.owner = highestOffer.member;
         console.info('#### vehicle owner after: ' + vehicle.owner);
