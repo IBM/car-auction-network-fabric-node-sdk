@@ -12,10 +12,7 @@ var Fabric_Client = require('fabric-client');
 var Fabric_CA_Client = require('fabric-ca-client');
 
 var path = require('path');
-var util = require('util');
-var os = require('os');
 
-//
 var fabric_client = new Fabric_Client();
 var fabric_ca_client = null;
 var admin_user = null;
@@ -39,8 +36,7 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
     	verify: false
     };
     // be sure to change the http to https when the CA is running TLS enabled
-       fabric_ca_client = new Fabric_CA_Client('https://<enrollID>:<enrollSecret>@<ca_url_with_port>', null ,<caName>, crypto_suite);
-
+    fabric_ca_client = new Fabric_CA_Client('https://admin:35ffa0d9fa@n9fb94659f16c4d85a20219df994288bb-org1-ca.us03.blockchain.ibm.com:31011', null ,"org1CA", crypto_suite);
     // first check to see if the admin is already enrolled
     return fabric_client.getUserContext('admin', true);
 }).then((user_from_store) => {
