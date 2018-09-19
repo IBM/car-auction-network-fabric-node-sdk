@@ -1,6 +1,6 @@
 env:
   browser: true
-  es6: true
+  es7: true
   node: true
   jest: true
 extends:
