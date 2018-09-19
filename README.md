@@ -22,7 +22,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 ![Architecture](/docs/app-architecture.png)
 
 ## Flow
-1. User downloads IBM Blockchain Starter Plan connection profile, and adds url/secret for Certificate 
+1. User downloads IBM Blockchain Starter Plan connection profile, and adds url/secret for Certificate in the Node app
 Authority
 2. User enrolls admin, and registers a user with the Certificate Authority
 3. User installs, instantiaties, and invokes carauction chaincode on the peer
