@@ -25,3 +25,5 @@ rules:
     - warn
   no-irregular-whitespace:
     - warn
+  no-mixed-spaces-and-tabs:
+    - warn
