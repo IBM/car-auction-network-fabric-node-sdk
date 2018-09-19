@@ -5,14 +5,14 @@ env:
   jest: true
 extends:
   - 'eslint:recommended'
-  - 'plugin:react/recommended'
+  # - 'plugin:react/recommended'
 parserOptions:
   ecmaFeatures:
     experimentalObjectRestSpread: true
     jsx: true
   sourceType: module
-plugins:
-  - react
+# plugins:
+#   - react
 rules:
   indent:
     - warn
