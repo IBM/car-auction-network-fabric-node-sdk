@@ -54,13 +54,13 @@ Fabric_Client.newDefaultKeyValueStore({
   console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
   // must send the proposal to endorsing peers
-    var request = {
-      chaincodeId: 'carauction',
-      fcn: 'initLedger',
-      args: [''],
-      chainId: 'mychannel',
-      txId: tx_id
-    };
+  var request = {
+          chaincodeId: 'carauction',
+          fcn: 'initLedger',
+          args: [''],
+          chainId: 'mychannel',
+          txId: tx_id
+      };
   // send the transaction proposal to the peers
   return channel.sendTransactionProposal(request);
 }).then((results) => {
