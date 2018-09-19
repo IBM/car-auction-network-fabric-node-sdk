@@ -26,7 +26,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 and adds url/secret for Certificate in the Node app
 2. User enrolls admin, and registers a user with the Certificate Authority
 3. User installs, instantiaties, and invokes carauction chaincode on the peer
-4. Ledger is updated, and blocks are added to the channel
+4. Ledger is updated, blocks are added to the Starter Plan service, and the response is sent to Node app.
 
 ## Included components
 * [IBM Blockchain Starter Plan](https://console.bluemix.net/catalog/services/blockchain): Use the IBM Blockchain Platform to simplify the developmental, governmental, and operational aspects of creating a blockchain solution.
