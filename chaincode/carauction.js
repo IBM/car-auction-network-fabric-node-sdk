@@ -52,29 +52,29 @@ let Chaincode = class {
 
     let member1 = {};
     member1.balance = 5000;
-    member1.firstName = "Amy";
-    member1.lastName = "Williams";
+    member1.firstName = 'Amy';
+    member1.lastName = 'Williams';
     console.info('======After member ===========');
 
     let member2 = {};
     member2.balance = 5000;
-    member2.firstName = "Billy";
-    member2.lastName = "Thompson";
+    member2.firstName = 'Billy';
+    member2.lastName = 'Thompson';
 
     let member3 = {};
     member3.balance = 5000;
-    member3.firstName = "Tom";
-    member3.lastName = "Werner";
+    member3.firstName = 'Tom';
+    member3.lastName = 'Werner';
 
     let vehicle = {};
-    vehicle.owner = "memberA@acme.org";
+    vehicle.owner = 'memberA@acme.org';
 
     let vehicleListing = {};
     vehicleListing.reservePrice = 3500;
-    vehicleListing.description = "Arium Nova";
-    vehicleListing.listingState = "FOR_SALE";
-    vehicleListing.offers = "";
-    vehicleListing.vehicle = "1234";
+    vehicleListing.description = 'Arium Nova';
+    vehicleListing.listingState = 'FOR_SALE';
+    vehicleListing.offers = '';
+    vehicleListing.vehicle = '1234';
 
     await stub.putState('memberA@acme.org', Buffer.from(JSON.stringify(member1)));
     await stub.putState('memberB@acme.org', Buffer.from(JSON.stringify(member2)));
@@ -205,7 +205,7 @@ let Chaincode = class {
     };
 
     let listing = args[1];
-    console.info("listing: " + listing);
+    console.info('listing: ' + listing);
 
     //get reference to listing, to add the offer to the listing later
     let listingAsBytes = await stub.getState(listing);
@@ -234,9 +234,9 @@ let Chaincode = class {
       throw new Error('The bid is higher than the balance in your account!');
     }
 
-    console.info("vehicle: ");
+    console.info('vehicle: ');
     console.info(util.inspect(vehicle, { showHidden: false, depth: null }));
-    console.info("offer: ");
+    console.info('offer: ');
     console.info(util.inspect(offer, { showHidden: false, depth: null }));
 
 

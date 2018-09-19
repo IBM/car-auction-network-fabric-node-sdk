@@ -12,14 +12,10 @@ var Fabric_Client = require('fabric-client');
 var Fabric_CA_Client = require('fabric-ca-client');
 
 var path = require('path');
-var util = require('util');
-var os = require('os');
-
-
 var fabric_client = new Fabric_Client();
 var fabric_ca_client = null;
 var admin_user = null;
-var member_user = null;
+// var member_user = null;
 var store_path = path.join(__dirname, 'hfc-key-store');
 console.log(' Store path:' + store_path);
 
@@ -35,10 +31,6 @@ Fabric_Client.newDefaultKeyValueStore({
   var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
   crypto_suite.setCryptoKeyStore(crypto_store);
   fabric_client.setCryptoSuite(crypto_suite);
-  var tlsOptions = {
-    trustedRoots: [],
-    verify: false
-  };
   // be sure to change the http to https when the CA is running TLS enabled
   fabric_ca_client = new Fabric_CA_Client('https://<enrollID>:<enrollSecret>@<ca_url_with_port>', null ,'<caName>', crypto_suite);
   // first check to see if the admin is already enrolled
