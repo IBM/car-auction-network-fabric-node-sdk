@@ -32,3 +32,5 @@ rules:
     - warn
   parsing:
     - warn
+  whitespace:
+    - warn
