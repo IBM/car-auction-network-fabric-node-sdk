@@ -53,7 +53,7 @@ and adds url/secret for Certificate Authority in the Node app
 
 
 Then, click on `Launch`, after your network is created. All commands in this tutorial that are 
-outside of your editor will be in this newly created network. I will refer to it as "IBM Blockchain Starter Plan" from now on.
+outside of your editor will be in this newly created network. <b>I will refer to it as "IBM Blockchain Starter Plan" from now on.</b>
 
 
 
