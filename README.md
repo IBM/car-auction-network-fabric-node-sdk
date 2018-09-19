@@ -19,16 +19,14 @@ When the reader has completed this Code Pattern, they will understand how to:
 * Build a blockchain back-end using Hyperledger Fabric Node SDK
 * Inspect and read logs from applications connected to IBM Blockchain Starter Plan
 
-<!--Remember to dump an image in this path-->
-<!-- ![Architecture](/docs/app-architecture.png) -->
+![Architecture](/docs/architecture.png)
 
 ## Flow
 1. User downloads IBM Blockchain Starter Plan connection profile, and adds url/secret for Certificate 
 Authority
 2. User enrolls admin, and registers a user
-3. User installs and instantiaties carauction chaincode on the peer
-4. User invokes chaincode
-5. Ledger is updated, and blocks are added to the channel
+3. User installs, instantiaties, and invokes carauction chaincode on the peer
+4. Ledger is updated, and blocks are added to the channel
 
 ## Included components
 * [IBM Blockchain Starter Plan](https://console.bluemix.net/catalog/services/blockchain): Use the IBM Blockchain Platform to simplify the developmental, governmental, and operational aspects of creating a blockchain solution.
