@@ -12,7 +12,11 @@
         "fabric-client": "unstable",
         "grpc": "^1.6.0"
     },
-    "author": "Anthony O'Dowd",
+    "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-plugin-react": "^7.9.1"
+    },
+    "author": "Horea Porutiu",
     "license": "Apache-2.0",
     "keywords": [
         "Hyperledger",
