@@ -19,7 +19,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 * Build a blockchain back-end using Hyperledger Fabric Node SDK
 * Inspect and read logs from applications connected to IBM Blockchain Starter Plan
 
-![Architecture](/docs/arch.png)
+![Architecture](/docs/app-architecture.png)
 
 ## Flow
 1. User downloads IBM Blockchain Starter Plan connection profile, and adds url/secret for Certificate 
