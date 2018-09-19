@@ -183,7 +183,7 @@ Successfully enrolled member user "user1"User1 was successfully registered and e
 
 Now, we need to download the connection profile, and move it to our current working directory. 
 From the `Overview` in IBM Blockchain Platform, click on `Download`. Go to your recent 
-downloads, and move the file to the `carauction-network` directory. 
+downloads, and move the file to the `car-auction-network-fabric-node-sdk` directory. 
 
 Next, we need to install the chaincode on the peers. Then, we will need to instantiate the chaincode. 
 From the `Overview` tab on the left, click on `Install Code`. Then, click on `Install Chaincode` on 
