@@ -11,13 +11,12 @@ var creds = require('./creds.json');
 var Fabric_Client = require('fabric-client');
 var path = require('path');
 var util = require('util');
-var os = require('os');
 
 var fabric_client = new Fabric_Client();
 
 // setup the fabric network
 var channel = fabric_client.newChannel('defaultchannel');
-var peer = fabric_client.newPeer(creds.peers["org1-peer1"].url, { pem: creds.peers["org1-peer1"].tlsCACerts.pem, 'ssl-target-name-override': null });
+var peer = fabric_client.newPeer(creds.peers['org1-peer1'].url, { pem: creds.peers['org1-peer1'].tlsCACerts.pem, 'ssl-target-name-override': null });
 channel.addPeer(peer);
 var order = fabric_client.newOrderer(creds.orderers.orderer.url, { pem: creds.orderers.orderer.tlsCACerts.pem, 'ssl-target-name-override': null })
 channel.addOrderer(order);
@@ -55,14 +54,13 @@ Fabric_Client.newDefaultKeyValueStore({
   console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
   // must send the proposal to endorsing peers
-  var request = {
-    chaincodeId: 'carauction',
-        fcn: 'initLedger',
-        args: [''],
-        chainId: 'mychannel',
-        txId: tx_id
-    };
-
+    var request = {
+      chaincodeId: 'carauction',
+      fcn: 'initLedger',
+      args: [''],
+      chainId: 'mychannel',
+      txId: tx_id
+    };
   // send the transaction proposal to the peers
   return channel.sendTransactionProposal(request);
 }).then((results) => {
