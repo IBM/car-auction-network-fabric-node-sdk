@@ -44,11 +44,12 @@ and adds url/secret for Certificate Authority in the Node app
 [![](docs/part2.png)](https://www.youtube.com/watch?v=R16yLvs6Aeo)
 
 # Prerequisites
-1. If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
-2. In your IBM Cloud accout, create a Blockchain Starter Plan service on your IBM Cloud account, as shown below:
+1. NPM version >= 5.6.0 
+2. Node version >= 8.10.0
+3. If you do not have an IBM Cloud account yet, you will need to create one [here](https://ibm.biz/BdjLxy).
+4. In your IBM Cloud accout, create a Blockchain Starter Plan service on your IBM Cloud account, as shown below:
 ![nyDSaF](https://i.makeagif.com/media/4-11-2018/nyDSaF.gif)
-3. NPM version >= 5.6.0 
-4. Node version >= 8.10.0
+
 
 Then, click on `Launch`, after your network is created. All commands in this tutorial that are 
 outside of your editor will be in this newly created network. I will refer to it as "IBM Blockchain Starter Plan" from now on.
