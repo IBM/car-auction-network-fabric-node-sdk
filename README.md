@@ -29,7 +29,7 @@ chaincode under the hood. Note - when we <b> invoke chaincode, we are making a t
 on the blockchain network. This is extremely important. Chaincode is <b> how we make transactions </b>
 on the network. When we make an offer, the chaincode will check for two types of errors:
 
-1) If the owner of the car bids on their own item
+1) If the owner of the car bids on their own car
 2) If the bidder has enough money in their account to make the bid
 
 If both checks are passed, an offer is recorded on the ledger. Once the auction closes, we call the `closeBidding` transaction as seen in the `chaincode/carauction.js` file: https://github.com/IBM/car-auction-network-fabric-node-sdk/blob/master/chaincode/carauction.js#L273. That will give the car to the highest bidder, and transfer funds from the buyer to the seller. The buyer will gain ownership of the car.
