@@ -7,6 +7,7 @@ var request = {
   txId: tx_id
 };  
 
+//this should throw an error bc the owner of the vehicle is bidding on own vehicle (this is not allowed)
 var request = {
   //targets: let default to the peer assigned to the client
   chaincodeId: 'carauction',
@@ -34,6 +35,7 @@ var request = {
   txId: tx_id
 };
 
+//this should throw an error bc memberB only has 5000 in their account. 5001 > than their balance, so error is thrown. 
 var request = {
   //targets: let default to the peer assigned to the client
   chaincodeId: 'carauction',
