@@ -5,9 +5,10 @@
 In this Code Pattern we will create a blockchain app that simulates a car auction network.
 
 ### Intro to Certificate Authority
+
 The first 
 step before diving into the car-auction logic is to enroll our application with our 
-<b>CA(Certificate Authority)</b> from the IBM Blockchain Starter Plan. To do this, we need to 
+<b>[CA(Certificate Authority)](https://hyperledger-fabric.readthedocs.io/en/release-1.2/identity/identity.html#certificate-authorities)</b> from the IBM Blockchain Starter Plan. To do this, we need to 
 give our application the API endpoints of the CA on the IBM Blockchain Starter plan so that our 
 app can interact with the network. The CA will then provide us with certificates that will prove 
 our authenticity to the network: it will allow us to transact (i.e. invoke chaincode) on the network.
@@ -167,7 +168,7 @@ Assigned the admin user to the fabric client ::{"name":"admin","mspid":"org1","r
 ![packageFile](/docs/registerUser.gif)
 
 Now that we have generated our client side certificates, and stored them in `htc-key-store`, we need
-to register our application so that the network recongnizes it. 
+to register our application so that the network recognizes it. 
 
 Open `registerUser.js` in the editor of your choice. On line 42, we can see a new instance of the 
 Fabric_ca_client being created. We can simply copy our existing instance from `enrollAdmin.js`. This is 
@@ -206,12 +207,26 @@ Successfully enrolled member user "user1"User1 was successfully registered and e
 ![packageFile](/docs/invoke.gif)
 
 Now, we need to download the connection profile, and move it to our current working directory. 
-From the `Overview` in IBM Blockchain Platform, click on `Download`. Go to your recent 
-downloads, and move the file to the `car-auction-network-fabric-node-sdk` directory. 
+1. Go back to your IBM Blockchain Starter Plan, and click on the `Overview` tab in the top-left corner.
+2. From the `Overview` tab, click on `Connection Profile`.
+3. Once you click on `Connection Profile` you'll have an option to view as `Raw JSON` or `Download`. Click on `Download`. 
+
+This should automatically download the file and add it to your recently downloaded folder.
+This recently downloaded file will look something like this:
+
+`creds_nde288ef7dd6542d3a1cc824a02be67f1_org1.json`. 
+
+4. Rename the file to: 
+
+`creds.json`.
+
+5. Move the file to the `car-auction-network-fabric-node-sdk` directory. 
 
 Next, we need to install the chaincode on the peers. Then, we will need to instantiate the chaincode. 
-From the `Overview` tab on the left, click on `Install Code`. Then, click on `Install Chaincode` on 
-the right. 
+From the `Overview` tab on the left, click on `Install Code` on the bottom-left hand side of the screen. Then, click on `Install Chaincode` on 
+the right-side of the screen.
+
+You should be prompted with the following form: 
 
 ```
 Chaincode ID: carauction  
@@ -219,16 +234,20 @@ Chaincode Version: 1
 Chaincode Type: Node
 ```
 
-Choose your chaincode files from the carauction directory. This is very important. You need to 
-select both `carauction.js` and `package.json`.
-
-Then click `Submit`.
+Choose your chaincode files from the `car-auction-network-fabric-node-sdk/chaincode` (recently cloned) 
+directory. 
+Inside that directory, you should find a `package.json` and `carauction.js` file. Select both of those.
+You should see `2 files selected`. Then click `Submit`.
 
 Once the chaincode in installed, we need to instantiate it. From the same screen, click on the 
 3-dot symbol under `Actions`. Then click `Instantiate`.
 
 For `Chaincode Type` select `Node`. Then click `Next`. Next, leave the defaults on the next screen,
-which show a simple endorsement policy. Just click `Submit`.
+which show a simple endorsement policy. Just click `Submit`. Note - the policy specifies which peers
+will need to validate a new transaction. We are choosing the 
+simple policy here to keep things short and simple. For a more complex network, you can 
+choose the advanced option to give certain members members more weight. Click [here](https://console.bluemix.net/docs/services/blockchain/howto/install_instantiate_chaincode.html#installing-instantiating-and-updating-a-chaincode)
+to learn more. 
 
 Next, let's click on the `Channels` tab on the left side. Then click on the `defaultchannel`.
 You should see the `total blocks` and `time since last transaction`. If we click on the 
