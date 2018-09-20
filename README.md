@@ -17,7 +17,7 @@ properly signed X.509 certificate for verification purposes. All of our actors w
 will each have a digital identity encapsulated in an X.509 certificate. We need certificates for
 both an admin user, and a new user, that we can call `user1`. 
 
-### Intro to chaincode
+### Intro to Chaincode
 After we have finished generating 
 keys and certificates, we will need to install the chaincode on the peers. After the chaincode 
 is installed, we will instantiate it, which will call the chaincode constructor and initiate 
