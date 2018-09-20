@@ -326,7 +326,8 @@ let Chaincode = class {
 
         //now that we have the reference to the vehicle object, we can find the owner of the vehicle
         var vehicle = JSON.parse(vehicleAsBytes);
-        //get reference to the seller - or owner of vehicle
+        
+        //get reference to the owner of the vehicle i.e. the seller
         let sellerAsBytes = await stub.getState(vehicle.owner); 
         if (!sellerAsBytes || sellerAsBytes.toString().length <= 0) {
           throw new Error('vehicle does not exist: ');
@@ -339,18 +340,23 @@ let Chaincode = class {
         console.info(util.inspect(seller, { showHidden: false, depth: null }));
 
         console.info('#### seller balance before: ' + seller.balance);
+        
         //ensure all strings get converted to ints
         let sellerBalance = parseInt(seller.balance, 10);
         let highOfferBidPrice = parseInt(highestOffer.bidPrice, 10);
         let buyerBalance = parseInt(buyer.balance, 10);
 
+        //increase balance of seller
         sellerBalance += highOfferBidPrice;
         seller.balance = sellerBalance;
 
         console.info('#### seller balance after: ' + seller.balance);
         console.info('#### buyer balance before: ' + buyerBalance);
+        
+        //decrease balance of buyer by the amount of the bid price
         buyerBalance -= highestOffer.bidPrice;
         buyer.balance = buyerBalance;
+        
         console.info('#### buyer balance after: ' + buyerBalance);
         console.info('#### buyer balance after: ' + buyerBalance);
         console.info('#### vehicle owner before: ' + vehicle.owner);
@@ -370,8 +376,10 @@ let Chaincode = class {
         await stub.putState(highestOffer.member, Buffer.from(JSON.stringify(buyer)));
         console.info('old owner: ');
         console.info(util.inspect(oldOwner, { showHidden: false, depth: null }));
+        
         //update the balance of the seller 
         await stub.putState(oldOwner, Buffer.from(JSON.stringify(seller)));
+        
         // update the listing
         await stub.putState(listingKey, Buffer.from(JSON.stringify(listing)));        
       }
