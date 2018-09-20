@@ -21,7 +21,8 @@ both an admin user, and a new user, that we can call `user1`.
 After we have finished generating 
 keys and certificates, we will need to install the chaincode on the peers. After the chaincode 
 is installed, we will instantiate it, which will call the chaincode constructor and initiate 
-some data on the ledger. It will create a vehicle, a few members, and a vehicle listing (or a 
+some data on the ledger - as seen in the `initLedger` function from the `chaincode/carauction.js` file: https://github.com/IBM/car-auction-network-fabric-node-sdk/blob/master/chaincode/carauction.js#L50.
+ It will create a vehicle, a few members, and a vehicle listing (or a 
 listing on which members can bid on).  After that, the members will make offers for the car, which is actually invoking 
 chaincode under the hood. Note - when we <b> invoke chaincode, we are making a transaction </b> 
 on the blockchain network. This is extremely important. Chaincode is <b> how we make transactions </b>
