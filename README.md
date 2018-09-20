@@ -2,7 +2,10 @@
 
 # Create a car auction network with Hyperledger Fabric Node.js SDK and IBM Blockchain Starter Plan
 
-In this Code Pattern we will create a blockchain app that simulates a car auction network. The first 
+In this Code Pattern we will create a blockchain app that simulates a car auction network.
+
+### Intro to Certificate Authority
+The first 
 step before diving into the car-auction logic is to enroll our application with our 
 <b>CA(Certificate Authority)</b> from the IBM Blockchain Starter Plan. To do this, we need to 
 give our application the API endpoints of the CA on the IBM Blockchain Starter plan so that our 
@@ -12,7 +15,10 @@ Note - any calls to the Hyperledger Fabric network will have to be signed with a
 properly signed X.509 certificate for verification purposes. All of our actors within our network (peers,
  orderers, client apps, admins) 
 will each have a digital identity encapsulated in an X.509 certificate. We need certificates for
-both an admin user, and a new user, that we can call `user1`. After we have finished generating 
+both an admin user, and a new user, that we can call `user1`. 
+
+### Intro to chaincode
+After we have finished generating 
 keys and certificates, we will need to install the chaincode on the peers. After the chaincode 
 is installed, we will instantiate it, which will call the chaincode constructor and initiate 
 some data on the ledger. It will create a vehicle, a few members, and a vehicle listing (or a 
