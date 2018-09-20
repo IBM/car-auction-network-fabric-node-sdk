@@ -2,10 +2,14 @@
 
 # Create a car auction network with Hyperledger Fabric Node.js SDK and IBM Blockchain Starter Plan
 
-In this Code Pattern we will create a blockchain app that simulates a car auction network. In this pattern, the user will first enroll the admin user by connecting to the CA(Certificate Authority) from the IBM Blockchain Starter Plan instance, and then register a user as well. After that, we will initiate(instantiate) the ledger, which will create a few members, a car, and a vehice listing (a listing which members can bid on) on the ledger. After that, the members will make offers for the car, and the chaincode will check for two types of errors:
+In this Code Pattern we will create a blockchain app that simulates a car auction network. In this pattern, the user will first enroll the admin user by connecting to the CA(Certificate Authority) from the IBM Blockchain Starter Plan instance, and then register a user as well. After that, we will initiate(instantiate) the ledger, which will create a few members, a car, and a vehicle listing (a listing which members can bid on) on the ledger. After that, the members will make offers for the car, and the chaincode will check for two types of errors:
 
 1) If the owner of the car bids on their own item
 2) If the bidder has enough money in their account to make the bid
+
+Note - when we <b> invoke chaincode, we are making a transaction </b> on the blockchain network. This is 
+extremely important. Chaincode is <b> how we make transactions </b> on the network. We do so by 
+invoking chaincode. 
 
 If both checks are passed, an offer is recorded on the ledger. Once the auction closes, we call the `closeBidding` transaction. That will give the car to the highest bidder, and transfer funds from the buyer to the seller. The buyer will gain ownership of the car.
 
@@ -16,7 +20,7 @@ Lastly, we will check the logs of the peers on the IBM Blockchain Starter Plan, 
 When the reader has completed this Code Pattern, they will understand how to:
 
 * Interact with IBM Blockchain Starter Plan
-* Build a blockchain back-end using Hyperledger Fabric Node SDK
+* Build a blockchain network using Hyperledger Fabric Node SDK
 * Inspect and read logs from applications connected to IBM Blockchain Starter Plan
 
 ![Architecture](/docs/app-architecture.png)
