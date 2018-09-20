@@ -382,6 +382,7 @@ If we check the Starter Plan again, we can see this data being written to the le
 increasing by one.
 
 Next, let's give an offer that is too high...that is the offer is greater than the balance in the account.
+<b> Note - this should throw an error. This is to show error checks of the chaincode. </b>
 
 ```
 var request = {
