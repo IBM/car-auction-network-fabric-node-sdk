@@ -2,14 +2,27 @@
 
 # Create a car auction network with Hyperledger Fabric Node.js SDK and IBM Blockchain Starter Plan
 
-In this Code Pattern we will create a blockchain app that simulates a car auction network. In this pattern, the user will first enroll the admin user by connecting to the CA(Certificate Authority) from the IBM Blockchain Starter Plan instance, and then register a user as well. After that, we will initiate(instantiate) the ledger, which will create a few members, a car, and a vehicle listing (a listing which members can bid on) on the ledger. After that, the members will make offers for the car, and the chaincode will check for two types of errors:
+In this Code Pattern we will create a blockchain app that simulates a car auction network. The first 
+step before diving into the car-auction logic is to enroll our application with our 
+<b>CA(Certificate Authority)</b> from the IBM Blockchain Starter Plan. To do this, we need to 
+give our application the API endpoints of the CA on the IBM Blockchain Starter plan so that our 
+app can interact with the network. The CA will then provide us with certificates that will prove 
+our authenticity to the network: it will allow us to transact (i.e. invoke chaincode) on the network.
+Note - any calls to the Hyperledger Fabric network will have to be signed with a private key and a
+properly signed x509 certificate for verification purposes. All of our actors within our network (peers,
+ orderers, client apps, admins) 
+will each have a digital identity encapsulated in an X.509 certificate. We need certificates for
+both an admin user, and a new user, that we can call `user1`. After we have finished generating 
+keys and certificates, we will need to install the chaincode on the peers. After the chaincode 
+is installed, we will instantiate it, which will call the chaincode constructor and initiate 
+some data on the ledger. It will create a vehicle, a few members, and a vehicle listing (or a 
+listing on which members can bid on).  After that, the members will make offers for the car, which is actually invoking 
+chaincode under the hood. Note - when we <b> invoke chaincode, we are making a transaction </b> 
+on the blockchain network. This is extremely important. Chaincode is <b> how we make transactions </b>
+on the network. When we make an offer, the chaincode will check for two types of errors:
 
 1) If the owner of the car bids on their own item
 2) If the bidder has enough money in their account to make the bid
-
-Note - when we <b> invoke chaincode, we are making a transaction </b> on the blockchain network. This is 
-extremely important. Chaincode is <b> how we make transactions </b> on the network. We do so by 
-invoking chaincode. 
 
 If both checks are passed, an offer is recorded on the ledger. Once the auction closes, we call the `closeBidding` transaction. That will give the car to the highest bidder, and transfer funds from the buyer to the seller. The buyer will gain ownership of the car.
 
