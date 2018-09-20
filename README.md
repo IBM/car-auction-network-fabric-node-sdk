@@ -9,7 +9,7 @@ give our application the API endpoints of the CA on the IBM Blockchain Starter p
 app can interact with the network. The CA will then provide us with certificates that will prove 
 our authenticity to the network: it will allow us to transact (i.e. invoke chaincode) on the network.
 Note - any calls to the Hyperledger Fabric network will have to be signed with a private key and a
-properly signed x509 certificate for verification purposes. All of our actors within our network (peers,
+properly signed X.509 certificate for verification purposes. All of our actors within our network (peers,
  orderers, client apps, admins) 
 will each have a digital identity encapsulated in an X.509 certificate. We need certificates for
 both an admin user, and a new user, that we can call `user1`. After we have finished generating 
