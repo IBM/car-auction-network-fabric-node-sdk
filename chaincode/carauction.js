@@ -297,7 +297,7 @@ let Chaincode = class {
     //can only close bidding if there are offers
     if (listing.offers && listing.offers.length > 0) {
       
-      //use build in JavaScript array sort method - returns highest value at the first index - i.e. highest bid
+      //use built in JavaScript array sort method - returns highest value at the first index - i.e. highest bid
       listing.offers.sort(function (a, b) {
         return (b.bidPrice - a.bidPrice);
       });
