@@ -50,7 +50,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 1. User downloads IBM Blockchain Starter Plan connection profile 
 and adds url/secret for Certificate Authority in the Node app
 2. User enrolls admin, and registers a user with the Certificate Authority
-3. User installs, instantiaties, and invokes carauction chaincode on the peer
+3. User installs, instantiates, and invokes carauction chaincode on the peer
 4. Ledger is updated, blocks are added to the Starter Plan service, and the response is sent to Node app.
 
 ## Included components
@@ -227,6 +227,14 @@ From the `Overview` tab on the left, click on `Install Code` on the bottom-left 
 the right-side of the screen.
 
 You should be prompted with the following form: 
+
+```
+Chaincode ID:   
+Chaincode Version: 
+Chaincode Type: 
+```
+
+Fill it out as shown below: 
 
 ```
 Chaincode ID: carauction  
