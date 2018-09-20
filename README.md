@@ -255,7 +255,7 @@ For `Chaincode Type` select `Node`. Then click `Next`. Next, leave the defaults 
 which show a simple endorsement policy. Just click `Submit`. Note - the policy specifies which peers
 will need to validate a new transaction. We are choosing the 
 simple policy here to keep things short and simple. For a more complex network, you can 
-choose the advanced option to give certain members members more weight. Click [here](https://console.bluemix.net/docs/services/blockchain/howto/install_instantiate_chaincode.html#installing-instantiating-and-updating-a-chaincode)
+choose the advanced option to give certain members more weight. Click [here](https://console.bluemix.net/docs/services/blockchain/howto/install_instantiate_chaincode.html#installing-instantiating-and-updating-a-chaincode)
 to learn more. 
 
 Next, let's click on the `Channels` tab on the left side. Then click on the `defaultchannel`.
