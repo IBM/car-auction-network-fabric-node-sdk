@@ -294,10 +294,13 @@ let Chaincode = class {
 
     //can only close bidding if there are offers
     if (listing.offers && listing.offers.length > 0) {
+      
+      //use build in JavaScript array sort method - returns highest value at the first index - i.e. highest bid
       listing.offers.sort(function (a, b) {
         return (b.bidPrice - a.bidPrice);
       });
 
+      //get a reference to our highest offer - this object includes the bid price as one of its fields
       highestOffer = listing.offers[0];
       console.info('highest Offer: ' + highestOffer);
 
@@ -307,24 +310,25 @@ let Chaincode = class {
 
         console.info('highestOffer.member: ' + buyer);
 
-        //get the buyer or highest bidder on the vehicle
+        //get the buyer i.e. the highest bidder on the vehicle
         let buyerAsBytes = await stub.getState(buyer);
         if (!buyerAsBytes || buyerAsBytes.toString().length <= 0) {
           throw new Error('vehicle does not exist: ');
         }
 
+        //save a reference of the buyer for later - need this reference to update account balance
         buyer = JSON.parse(buyerAsBytes);
         console.info('buyer: ');
         console.info(util.inspect(buyer, { showHidden: false, depth: null }));
 
-
-        //get reference to vehicle so we can get the owner or seller 
+        //get reference to vehicle so we can get the owner i.e. the seller 
         let vehicleAsBytes = await stub.getState(listing.vehicle); 
         if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
           throw new Error('vehicle does not exist: ');
         }
 
-        //now that we have the reference to the vehicle object, we can find the owner of the vehicle
+        //now that we have the reference to the vehicle object, 
+        //we can find the owner of the vehicle bc the vehicle object has a field for owner
         var vehicle = JSON.parse(vehicleAsBytes);
         
         //get reference to the owner of the vehicle i.e. the seller
@@ -361,7 +365,7 @@ let Chaincode = class {
         console.info('#### buyer balance after: ' + buyerBalance);
         console.info('#### vehicle owner before: ' + vehicle.owner);
         
-        //need reference to old owner so we can update their balance by adding highest bid to the balance 
+        //need reference to old owner so we can update their balance later
         let oldOwner = vehicle.owner;
         
         //assign person with highest bid as new owner
@@ -374,13 +378,14 @@ let Chaincode = class {
 
         //update the balance of the buyer 
         await stub.putState(highestOffer.member, Buffer.from(JSON.stringify(buyer)));
+        
         console.info('old owner: ');
         console.info(util.inspect(oldOwner, { showHidden: false, depth: null }));
         
-        //update the balance of the seller 
+        //update the balance of the seller i.e. old owner
         await stub.putState(oldOwner, Buffer.from(JSON.stringify(seller)));
         
-        // update the listing
+        //update the listing, use listingId as key, and the listing object as the value
         await stub.putState(listingKey, Buffer.from(JSON.stringify(listing)));        
       }
     }
