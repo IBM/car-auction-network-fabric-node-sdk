@@ -246,6 +246,8 @@ let Chaincode = class {
 
     console.info('listing response before pushing to offers: ');
     console.info(listing);
+    
+    //check to see if array is null - if so, we have to create an empty one, otherwise we can just push straight to it
     if (!listing.offers) {
       console.info('there are no offers!');
       listing.offers = [];
