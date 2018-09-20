@@ -2,7 +2,7 @@
 
 # Create a car auction network with Hyperledger Fabric Node.js SDK and IBM Blockchain Starter Plan
 
-In this Code Pattern we will create a blockchain app that simulates a car auction network.
+In this Code Pattern we will create a blockchain network that simulates a car auction network.
 
 ### Intro to Certificate Authority
 
