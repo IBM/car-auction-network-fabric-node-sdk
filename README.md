@@ -334,7 +334,7 @@ Note that in initLedger we created a car and assigned the owner of the car to be
 Our auction does not allow the owner of car to bid on his/her own car. <b>Thus, this call should give 
 us an error.</b> This step is to show you the error throwing capabilities of the chaincode.
 Let's try it. Save `invoke.js` and then run this command to invoke our app. Note, this 
-step (the node invoke step) will be repeated 5 more times below, but will exclude it for the sake of repetition. So 
+step (the node invoke step) will be repeated 5 more times below, but I will exclude it for the sake of repetition. So 
 remember, every time you want to invoke our app, you'll need to change the request variable,
 save the file, and then run the command below: 
 
