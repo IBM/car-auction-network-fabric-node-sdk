@@ -31,7 +31,7 @@ on the network. When we make an offer, the chaincode will check for two types of
 1) If the owner of the car bids on their own item
 2) If the bidder has enough money in their account to make the bid
 
-If both checks are passed, an offer is recorded on the ledger. Once the auction closes, we call the `closeBidding` transaction. That will give the car to the highest bidder, and transfer funds from the buyer to the seller. The buyer will gain ownership of the car.
+If both checks are passed, an offer is recorded on the ledger. Once the auction closes, we call the `closeBidding` transaction as seen in the `chaincode/carauction.js` file: https://github.com/IBM/car-auction-network-fabric-node-sdk/blob/master/chaincode/carauction.js#L273. That will give the car to the highest bidder, and transfer funds from the buyer to the seller. The buyer will gain ownership of the car.
 
 To ensure that our auction has worked correctly, we can query the ledger at the end to ensure that the car has the correct owner, and that the seller has been credited the correct amount in their account.
 
