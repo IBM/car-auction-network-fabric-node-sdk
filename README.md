@@ -218,7 +218,8 @@ This recently downloaded file will look something like this:
 
 4. Rename the file to: 
 
-`creds.json`.
+`creds.json`. <b>And yes, this is important. It needs to be exactly `creds.json`, since 
+this file is referenced at the top of `invoke.js`.</b>
 
 5. Move the file to the `car-auction-network-fabric-node-sdk` directory. 
 
