@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/horeaporutiu/carauction-network.svg?branch=master)](https://travis-ci.org/horeaporutiu/carauction-network)
+<!-- [![Build Status](https://travis-ci.org/horeaporutiu/carauction-network.svg?branch=master)](https://travis-ci.org/horeaporutiu/carauction-network) -->
 
 # Create a car auction network with Hyperledger Fabric Node.js SDK and IBM Blockchain Starter Plan
 
