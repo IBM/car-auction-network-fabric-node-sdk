@@ -216,9 +216,7 @@ This recently downloaded file will look something like this:
 
 `creds_nde288ef7dd6542d3a1cc824a02be67f1_org1.json`. 
 
-4. Rename the file to: 
-
-`creds.json`. 
+4. Rename the file to: `creds.json`. 
 
 <b>And yes, this is important. It needs to be exactly `creds.json`, since 
 this file is referenced at the top of </b>`invoke.js`.
