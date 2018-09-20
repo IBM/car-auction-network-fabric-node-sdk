@@ -221,7 +221,7 @@ This recently downloaded file will look something like this:
 <b>And yes, this is important. It needs to be exactly `creds.json`, since 
 this file is referenced at the top of </b>`invoke.js`.
 
-5. Move the file to the `car-auction-network-fabric-node-sdk` directory. 
+5. Move the `creds.json` file to the `car-auction-network-fabric-node-sdk` directory. 
 
 Next, we need to install the chaincode on the peers. Then, we will need to instantiate the chaincode. 
 From the `Overview` tab on the left, click on `Install Code` on the bottom-left hand side of the screen. Then, click on `Install Chaincode` on 
