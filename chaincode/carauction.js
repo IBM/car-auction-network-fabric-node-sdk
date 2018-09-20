@@ -188,7 +188,7 @@ let Chaincode = class {
   /**
    * Create a offer object in the state, and add it to the array of offers for that listing  
    * @param arg[0] - bid price in the offer - how much bidder is willing to pay
-   * @param arg[1] - listing number: reference to a listing in the state
+   * @param arg[1] - listingId: reference to a listing in the state
    * @param arg[2] - member email: reference to member which does not own vehicle
    * onSuccess - create and update the state with a new offer object  
    */
@@ -239,29 +239,30 @@ let Chaincode = class {
     console.info('offer: ');
     console.info(util.inspect(offer, { showHidden: false, depth: null }));
 
-
-    //check to ensure bidder can't bid on own item!
+    //check to ensure bidder can't bid on own item
     if (vehicle.owner == offer.member) {
-      throw new Error('owner cannot bid on own item: ');
+      throw new Error('owner cannot bid on own item!');
     }
 
     console.info('listing response before pushing to offers: ');
     console.info(listing);
     if (!listing.offers) {
-      console.info('there are no offers! ');
+      console.info('there are no offers!');
       listing.offers = [];
     }
     listing.offers.push(offer);
 
     console.info('listing response after pushing to offers: ');
     console.info(listing);
+    
+    //update the listing - use listingId as key(args[1]), and listing object as value
     await stub.putState(args[1], Buffer.from(JSON.stringify(listing)));
 
     console.info('============= END : MakeOffer method ===========');
 
   }
 
-  /** closeBidding 
+  /** 
    * Close the bidding for a vehicle listing and choose the
    * highest bid as the winner. 
    * @param arg[0] - listingId - a reference to our vehicleListing
@@ -285,7 +286,6 @@ let Chaincode = class {
     }
     console.info('============= listing exists ===========');
 
-
     var listing = JSON.parse(listingAsBytes);
     console.info('listing: ');
     console.info(util.inspect(listing, { showHidden: false, depth: null }));
@@ -301,7 +301,7 @@ let Chaincode = class {
       highestOffer = listing.offers[0];
       console.info('highest Offer: ' + highestOffer);
 
-      //bid must be higher than reserve price, otherwise we can sell the car
+      //bid must be higher than reserve price, otherwise we can not sell the car
       if (highestOffer.bidPrice >= listing.reservePrice) {
         let buyer = highestOffer.member;
 
@@ -318,12 +318,13 @@ let Chaincode = class {
         console.info(util.inspect(buyer, { showHidden: false, depth: null }));
 
 
-        //get reference to vehicle
+        //get reference to vehicle so we can get the owner or seller 
         let vehicleAsBytes = await stub.getState(listing.vehicle); 
         if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
           throw new Error('vehicle does not exist: ');
         }
 
+        //now that we have the reference to the vehicle object, we can find the owner of the vehicle
         var vehicle = JSON.parse(vehicleAsBytes);
         //get reference to the seller - or owner of vehicle
         let sellerAsBytes = await stub.getState(vehicle.owner); 
@@ -331,6 +332,7 @@ let Chaincode = class {
           throw new Error('vehicle does not exist: ');
         }
 
+        //the seller is the current vehicle owner
         let seller = JSON.parse(sellerAsBytes);
 
         console.info('seller: ');
@@ -352,9 +354,13 @@ let Chaincode = class {
         console.info('#### buyer balance after: ' + buyerBalance);
         console.info('#### buyer balance after: ' + buyerBalance);
         console.info('#### vehicle owner before: ' + vehicle.owner);
+        
+        //need reference to old owner so we can update their balance by adding highest bid to the balance 
         let oldOwner = vehicle.owner;
+        
         //assign person with highest bid as new owner
         vehicle.owner = highestOffer.member;
+        
         console.info('#### vehicle owner after: ' + vehicle.owner);
         console.info('#### buyer balance after: ' + buyerBalance);
         listing.offers = null;
