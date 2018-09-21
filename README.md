@@ -546,7 +546,7 @@ Chaincode Type: Node
 
 > Then, when you go to click on the action i.e. the three-dot button, there will be an option that says `update`. Choose that one and then keep the same defaults (the simple policy) as shown before. And that's it!
 
-Hope you learned something, and if you find anything missing, encounter a nasty bug, error, etc. please open an issue on this repo above⤴⤴⤴⤴⤴! :)
+Hope you learned something, and if you find anything missing, encounter a nasty bug, error, etc. please open an issue on this repo above⤴⤴⤴⤴⤴! 🕷🕷🕷
 
 
 
