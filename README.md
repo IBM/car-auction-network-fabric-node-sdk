@@ -243,6 +243,8 @@ Chaincode Version: 1
 Chaincode Type: Node
 ```
 
+To do this, simply fill out the form with the same exact way,  and increase the `Chaincode Version` by one. This will enable you to do a chaincode update, and will allow you to use the new chaincode when invoking transactions 
+
 Choose your chaincode files from the `car-auction-network-fabric-node-sdk/chaincode` (recently cloned) 
 directory. 
 Inside that directory, you should find a `package.json` and `carauction.js` file. Select both of those.
@@ -308,6 +310,16 @@ If you look around line 60 of `invoke.js` you should see this:
 ```
 This is where we call the different functions in our chaincode. By default, we call initLedger.
 This is why our new block reflects this function call. 
+
+Note - if you want to update the chaincode - and add in your own functions, you will have to install the <b> updated chaincode</b> by <b> selecting the updated `carauction.js` and `package.json` files </b>. So follow the same process as shown above to install chaincode, but use your newly updated files. For the form, you would fill it out as shown below, and keep incrementing the version number on subsequent updates:
+
+```
+Chaincode ID: carauction  
+Chaincode Version: 2
+Chaincode Type: Node
+```
+
+Then, when you go to click on the action i.e. the three-dot button, there will be an option that says `update`. Choose that one and then keep the same defaults (the simple policy) as shown before.
 
 ## Step 5. Running the app 
 ![packageFile](/docs/runApp.gif)
