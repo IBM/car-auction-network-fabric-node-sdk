@@ -90,7 +90,7 @@ outside of your editor will be in this newly created network. <b>I will refer to
 4. [Invoking Chaincode](#step-4-invoking-chaincode)
 5. [Running the app](#step-5-running-the-app)
 6. [Querying the ledger](#step-6-querying-the-ledger)
-7. [Conclusion](#step-7-conclusion)
+7. [Conclusion + Updating Chaincode](#step-7-conclusion-+-updating-chaincode)
 
 
 ## Step 1. Clone the repo
@@ -519,7 +519,7 @@ The response:
 ```
 Response is  {"description":"Arium Nova","listingState":"SOLD","offers":null,"reservePrice":3500,"vehicle":"1234"}
 ```
-## Step 7. Conclusion
+## Step 7. Conclusion + Updating Chaincode
 Congrats!
 
 🙌🏼🙌🏼🙌🏼
@@ -534,7 +534,7 @@ and created some offers on the network. We closed the bidding and saw our ledger
 being updated as Member C won the auction. Lastly, we learned how to query the 
 ledger to ensure that our data looks how we intend it to look.
 
-🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑<b> Optional & Extra Credit </b>🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑
+🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑<b> Optional & Extra Credit - Updating Chaincode </b>🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑
 
 > Note - if you want to update the chaincode - and add in your own functions, you will have to install the <b> updated chaincode</b> by <b> selecting the updated `carauction.js` and `package.json` files </b>. So follow the same process as shown above in step 4 to install chaincode, but use your newly updated files. For the form, you would fill it out as shown below, and keep incrementing the version number on subsequent updates:
 
@@ -546,11 +546,7 @@ Chaincode Type: Node
 
 > Then, when you go to click on the action i.e. the three-dot button, there will be an option that says `update`. Choose that one and then keep the same defaults (the simple policy) as shown before. And that's it!
 
-Hope you learned something, and if you find anything missing, please open an issue
-on this repo! :)
-
-If there are any problems, bugs, errors etc. please open up an issue above ⤴⤴⤴⤴⤴! Thanks!
-
+Hope you learned something, and if you find anything missing, encounter a nasty bug, error, etc. please open an issue on this repo above⤴⤴⤴⤴⤴! :)
 
 
 
