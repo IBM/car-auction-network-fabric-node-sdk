@@ -311,18 +311,6 @@ If you look around line 60 of `invoke.js` you should see this:
 This is where we call the different functions in our chaincode. By default, we call initLedger.
 This is why our new block reflects this function call. 
 
-🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑<b> Optional & Extra Credit </b>🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑
-
-> Note - if you want to update the chaincode - and add in your own functions, you will have to install the <b> updated chaincode</b> by <b> selecting the updated `carauction.js` and `package.json` files </b>. So follow the same process as shown above to install chaincode, but use your newly updated files. For the form, you would fill it out as shown below, and keep incrementing the version number on subsequent updates:
-
-```
-Chaincode ID: carauction  
-Chaincode Version: 2
-Chaincode Type: Node
-```
-
-> Then, when you go to click on the action i.e. the three-dot button, there will be an option that says `update`. Choose that one and then keep the same defaults (the simple policy) as shown before.
-
 ## Step 5. Running the app 
 ![packageFile](/docs/runApp.gif)
 
@@ -546,8 +534,22 @@ and created some offers on the network. We closed the bidding and saw our ledger
 being updated as Member C won the auction. Lastly, we learned how to query the 
 ledger to ensure that our data looks how we intend it to look.
 
+🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑<b> Optional & Extra Credit </b>🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑
+
+> Note - if you want to update the chaincode - and add in your own functions, you will have to install the <b> updated chaincode</b> by <b> selecting the updated `carauction.js` and `package.json` files </b>. So follow the same process as shown above in step 4 to install chaincode, but use your newly updated files. For the form, you would fill it out as shown below, and keep incrementing the version number on subsequent updates:
+
+```
+Chaincode ID: carauction  
+Chaincode Version: 2
+Chaincode Type: Node
+```
+
+> Then, when you go to click on the action i.e. the three-dot button, there will be an option that says `update`. Choose that one and then keep the same defaults (the simple policy) as shown before. And that's it!
+
 Hope you learned something, and if you find anything missing, please open an issue
 on this repo! :)
+
+If there are any problems, bugs, errors etc. please open up an issue above ⤴⤴⤴⤴⤴! Thanks!
 
 
 
