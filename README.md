@@ -534,7 +534,7 @@ and created some offers on the network. We closed the bidding and saw our ledger
 being updated as Member C won the auction. Lastly, we learned how to query the 
 ledger to ensure that our data looks how we intend it to look.
 
-🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑<b> Optional & Extra Credit - Updating Chaincode </b>🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑
+🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑<b> Optional & Extra Credit - Updating Chaincode </b>🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑
 
 > Note - if you want to update the chaincode - and add in your own functions, you will have to install the <b> updated chaincode</b> by <b> selecting the updated `carauction.js` and `package.json` files </b>. So follow the same process as shown above in step 4 to install chaincode, but use your newly updated files. For the form, you would fill it out as shown below, and keep incrementing the version number on subsequent updates:
 
