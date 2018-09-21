@@ -90,7 +90,7 @@ outside of your editor will be in this newly created network. <b>I will refer to
 4. [Invoking Chaincode](#step-4-invoking-chaincode)
 5. [Running the app](#step-5-running-the-app)
 6. [Querying the ledger](#step-6-querying-the-ledger)
-7. [Conclusion + Updating Chaincode](#step-7-conclusion-+-updating-chaincode)
+7. [Conclusion + Updating Chaincode](#step-7-conclusion--updating-chaincode)
 
 
 ## Step 1. Clone the repo
