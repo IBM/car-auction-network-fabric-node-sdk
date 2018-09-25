@@ -106,7 +106,7 @@ $ cd car-auction-network-fabric-node-sdk
 ```
 
 ## Step 2. Enroll App 
- ![packageFile](/docs/enrollAdmin.gif)
+ ![packageFile](https://imgur.com/6y0D8GC)
 
 First, we need to generate the necessary keys and certs from the Certificate Authority to prove our authenticity to the network.
 To do this, we will go into our new IBM Blockchain Starter Plan network, and from the `Overview` Tab on the left, we will click on `Connection Profile` on the right-side of the page. Then click on `Raw JSON`.
