@@ -1,12 +1,19 @@
-'use strict';
 /*
-* Copyright IBM Corp All Rights Reserved
-*
-* SPDX-License-Identifier: Apache-2.0
+ Copyright 2018 IBM All Rights Reserved.
+ Licensed under the Apache License, Version 2.0 (the 'License');
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an 'AS IS' BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
 */
 /*
  * Chaincode query
  */
+'use strict';
 
 var Fabric_Client = require('fabric-client');
 var path = require('path');
@@ -46,8 +53,8 @@ Fabric_Client.newDefaultKeyValueStore({
     throw new Error('Failed to get user1.... run registerUser.js');
   }
 
-  // queryCar chaincode function - requires 1 argument, ex: args: ['CAR4'],
-  // queryAllCars chaincode function - requires no arguments , ex: args: [''],
+  // query chaincode function - requires 1 argument, ex: args: ['memberA@acme.org'],
+  // you can query by any key that is written on to the ledger
   const request = {
     //targets : --- letting this default to the peers assigned to the channel
     chaincodeId: 'carauction',
