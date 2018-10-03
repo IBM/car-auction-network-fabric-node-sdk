@@ -1,29 +1,28 @@
 {
-    "name": "carauction",
-    "version": "1.0.0",
-    "description": "Hyperledger Fabric Car Sample Application",
-    "main": "carauction.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "lint": "./node_modules/.bin/eslint . ./**/*.js"
-    },
-    "dependencies": {
-        "fabric-ca-client": "unstable",
-        "fabric-client": "unstable",
-        "grpc": "^1.6.0"
-    },
-    "devDependencies": {
-        "babel-eslint": "^9.0.0",
-        "eslint": "^4.13.1",
-        "eslint-plugin-react": "^7.9.1"
-    },
-    "author": "Horea Porutiu",
-    "license": "Apache-2.0",
-    "keywords": [
-        "Hyperledger",
-        "Fabric",
-        "Car",
-        "Sample",
-        "Application"
-    ]
+  "name": "carauction",
+  "version": "1.0.0",
+  "description": "Hyperledger Fabric Car Sample Application",
+  "main": "carauction.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "fabric-ca-client": "unstable",
+    "fabric-client": "unstable",
+    "grpc": "^1.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-plugin-react": "^7.9.1"
+  },
+  "author": "Horea Porutiu",
+  "license": "Apache-2.0",
+  "keywords": [
+    "Hyperledger",
+    "Fabric",
+    "Car",
+    "Sample",
+    "Application"
+  ]
 }
