@@ -245,6 +245,7 @@ Chaincode Type: Node
 
 To do this, simply fill out the form with the same exact way,  and increase the `Chaincode Version` by one. This will enable you to do a chaincode update, and will allow you to use the new chaincode when invoking transactions 
 
+⚠️🚧⚠️ - ENSURE YOU CHOOSE BOTH CHAINCODE AND PACKAGE.JSON FILES TO UPLOAD TO PEER AT THIS STEP - ⚠️🚧⚠️
 Choose your chaincode files from the `car-auction-network-fabric-node-sdk/chaincode` (recently cloned) 
 directory. 
 Inside that directory, you should find a `package.json` and `carauction.js` file. Select both of those.
