@@ -57,46 +57,35 @@ let Chaincode = class {
   async initLedger(stub, args) {
     console.info('============= START : Initialize Ledger ===========');
 
-    let elonMusk = {};
-    elonMusk.balance = 50;
-    elonMusk.firstName = 'Elon';
-    elonMusk.lastName = 'Musk';
-    elonMusk.email = 'elonmusk@tesla.com';
-    console.info('======Added Elon ===========');
+    let member1 = {};
+    member1.balance = 5000;
+    member1.firstName = 'Amy';
+    member1.lastName = 'Williams';
+    console.info('======After member ===========');
 
-    let jeffBezos = {};
-    jeffBezos.balance = 200;
-    jeffBezos.firstName = 'Jeff';
-    jeffBezos.lastName = 'Bezos';
-    jeffBezos.email = 'jeffcezos@amazon.com';
-    console.info('======Added Jeff ===========');
+    let member2 = {};
+    member2.balance = 5000;
+    member2.firstName = 'Billy';
+    member2.lastName = 'Thompson';
 
-    let timCook = {};
-    timCook.balance = 100;
-    timCook.firstName = 'Tim';
-    timCook.lastName = 'Cook';
-    timCook.email = 'timcook@apple.com';
-    console.info('======Added Tim ===========');
+    let member3 = {};
+    member3.balance = 5000;
+    member3.firstName = 'Tom';
+    member3.lastName = 'Werner';
 
     let vehicle = {};
-    vehicle.owner = 'elonmusk@tesla.com';
-    vehicle.vin = '1234';
-    console.info('======Assigned vehicle to Elon ===========');
+    vehicle.owner = 'memberA@acme.org';
 
     let vehicleListing = {};
-    vehicleListing.reservePrice = 50;
-    vehicleListing.description = 'Tesla model S';
+    vehicleListing.reservePrice = 3500;
+    vehicleListing.description = 'Arium Nova';
     vehicleListing.listingState = 'FOR_SALE';
     vehicleListing.offers = '';
     vehicleListing.vehicle = '1234';
-    vehicleListing.listingId = 'ABCD';
-    console.info('======Created vehicle listing - ready for bids ===========');
 
-    //TODO: see if i can put in member.email
-
-    await stub.putState('elonmusk@tesla.com', Buffer.from(JSON.stringify(elonMusk)));
-    await stub.putState('memberB@acme.org', Buffer.from(JSON.stringify(jeffBezos)));
-    await stub.putState('memberC@acme.org', Buffer.from(JSON.stringify(timCook)));
+    await stub.putState('memberA@acme.org', Buffer.from(JSON.stringify(member1)));
+    await stub.putState('memberB@acme.org', Buffer.from(JSON.stringify(member2)));
+    await stub.putState('memberC@acme.org', Buffer.from(JSON.stringify(member3)));
     await stub.putState('1234', Buffer.from(JSON.stringify(vehicle)));
     await stub.putState('ABCD', Buffer.from(JSON.stringify(vehicleListing)));
 
@@ -137,12 +126,11 @@ let Chaincode = class {
    */
   async createVehicle(stub, args) {
     console.info('============= START : Create Car ===========');
-    if (args.length != 3) {
+    if (args.length != 2) {
       throw new Error('Incorrect number of arguments. Expecting 2');
     }
 
     var car = {
-      vin: args[0],
       owner: args[1]
     };
 
@@ -167,7 +155,6 @@ let Chaincode = class {
     }
 
     var vehicleListing = {
-      listingId: args[0],
       reservePrice: args[1],
       description: args[2],
       listingState: args[3],
@@ -194,7 +181,6 @@ let Chaincode = class {
     }
 
     var member = {
-      email: args[0],
       firstName: args[1],
       lastName: args[2],
       balance: args[3]
