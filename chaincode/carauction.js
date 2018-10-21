@@ -68,14 +68,14 @@ let Chaincode = class {
     member2.balance = 200;
     member2.firstName = 'Jeff';
     member2.lastName = 'Bezos';
-    member2.email = 'jeffBezos@amazon.com';
+    member2.email = 'jeffcezos@amazon.com';
     console.info('======Added Jeff ===========');
 
     let timCook = {};
     member3.balance = 100;
     member3.firstName = 'Tim';
     member3.lastName = 'Cook';
-    member3.email = 'timCook@apple.com';
+    member3.email = 'timcook@apple.com';
     console.info('======Added Tim ===========');
 
     let vehicle = {};
