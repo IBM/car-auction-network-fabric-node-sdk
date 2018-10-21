@@ -7,12 +7,12 @@ var request = {
   txId: tx_id
 };  
 
-//this should throw an error bc the owner of the vehicle is bidding on own vehicle (this is not allowed)
+//this should throw an error bc Elon is putting his Tesla up for auction
 var request = {
   //targets: let default to the peer assigned to the client
   chaincodeId: 'carauction',
   fcn: 'makeOffer',
-  args: ['3000', 'ABCD', 'memberA@acme.org'],
+  args: ['50', 'ABCD', 'elonmusk@tesla.com'],
   chainId: 'mychannel',
   txId: tx_id
 };
@@ -21,7 +21,7 @@ var request = {
   //targets: let default to the peer assigned to the client
   chaincodeId: 'carauction',
   fcn: 'makeOffer',
-  args: ['4000', 'ABCD', 'memberB@acme.org'],
+  args: ['75', 'ABCD', 'jeffbezos@amazon.com'],
   chainId: 'mychannel',
   txId: tx_id
 };
@@ -30,17 +30,17 @@ var request = {
   //targets: let default to the peer assigned to the client
   chaincodeId: 'carauction',
   fcn: 'makeOffer',
-  args: ['5000', 'ABCD', 'memberC@acme.org'],
+  args: ['100', 'ABCD', 'timcook@apple.com'],
   chainId: 'mychannel',
   txId: tx_id
 };
 
-//this should throw an error bc memberB only has 5000 in their account. 5001 > than their balance, so error is thrown. 
+//this should throw an error bc Jeff only has 200 in their account. 201 > than their balance, so error is thrown. 
 var request = {
   //targets: let default to the peer assigned to the client
   chaincodeId: 'carauction',
   fcn: 'makeOffer',
-  args: ['5001', 'ABCD', 'memberB@acme.org'],
+  args: ['201', 'ABCD', 'jeffbezos@amazon.com'],
   chainId: 'mychannel',
   txId: tx_id
 };
