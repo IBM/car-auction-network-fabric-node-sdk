@@ -58,24 +58,24 @@ let Chaincode = class {
     console.info('============= START : Initialize Ledger ===========');
 
     let elonMusk = {};
-    member1.balance = 50;
-    member1.firstName = 'Elon';
-    member1.lastName = 'Musk';
-    member1.email = 'elonmusk@tesla.com';
+    elonMusk.balance = 50;
+    elonMusk.firstName = 'Elon';
+    elonMusk.lastName = 'Musk';
+    elonMusk.email = 'elonmusk@tesla.com';
     console.info('======Added Elon ===========');
 
     let jeffBezos = {};
-    member2.balance = 200;
-    member2.firstName = 'Jeff';
-    member2.lastName = 'Bezos';
-    member2.email = 'jeffcezos@amazon.com';
+    jeffBezos.balance = 200;
+    jeffBezos.firstName = 'Jeff';
+    jeffBezos.lastName = 'Bezos';
+    jeffBezos.email = 'jeffcezos@amazon.com';
     console.info('======Added Jeff ===========');
 
     let timCook = {};
-    member3.balance = 100;
-    member3.firstName = 'Tim';
-    member3.lastName = 'Cook';
-    member3.email = 'timcook@apple.com';
+    timCook.balance = 100;
+    timCook.firstName = 'Tim';
+    timCook.lastName = 'Cook';
+    timCook.email = 'timcook@apple.com';
     console.info('======Added Tim ===========');
 
     let vehicle = {};
