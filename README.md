@@ -255,6 +255,8 @@ You should see `2 files selected`. Then click `Submit`.
 Once the chaincode in installed, we need to instantiate it. From the same screen, click on the 
 3-dot symbol under `Actions`. Then click `Instantiate`.
 
+⚠️🚧⚠️ Note: If you get an error after clicking `Instantiate` ⚠️🚧⚠️ it might be because your version on IBM Blockchain Platform doesn't match the version in the `package.json`. Try filling in ```Chaincode Version: 1.0.0``` instead.
+
 For `Chaincode Type` select `Node`. Then click `Next`. Next, leave the defaults on the next screen,
 which show a simple endorsement policy. Just click `Submit`. Note - the policy specifies which peers
 will need to validate a new transaction. We are choosing the 
