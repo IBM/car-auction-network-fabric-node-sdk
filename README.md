@@ -2,7 +2,7 @@
 
 # Create a car auction network with Hyperledger Fabric Node.js SDK and IBM Blockchain Starter Plan
 
-In this Code Pattern we will create a blockchain network that simulates a car auction network.
+In this Code Pattern we will create a blockchain network that simulates a car auction network. This network is based on an existing Hyperledger Composer application, which you can find [here](https://github.com/hyperledger/composer-sample-networks/tree/master/packages/carauction-network).
 
 ### Intro to Certificate Authority
 
@@ -245,7 +245,12 @@ Chaincode Type: Node
 
 To do this, simply fill out the form with the same exact way,  and increase the `Chaincode Version` by one. This will enable you to do a chaincode update, and will allow you to use the new chaincode when invoking transactions 
 
+<<<<<<< HEAD
 -------------⚠️🚧⚠️IMPORTANT - NEED TO CHOOSE 2 FILES FOR CHAINCODE UPLOAD TO PEERS⚠️🚧⚠️----------------
+=======
+⚠️🚧⚠️ <b>READ CAREFULLY - UPLOAD BOTH CHAINCODE AND PACKAGE.JSON IN THIS STEP</b> ⚠️🚧⚠️
+
+>>>>>>> 74a7017b30aa55e11424ab24a25d41571971397e
 Choose your chaincode files from the `car-auction-network-fabric-node-sdk/chaincode` (recently cloned) 
 directory. 
 Inside that directory, you should find a `package.json` and `carauction.js` file. Select both of those.
@@ -253,6 +258,8 @@ You should see `2 files selected`. Then click `Submit`.
 
 Once the chaincode in installed, we need to instantiate it. From the same screen, click on the 
 3-dot symbol under `Actions`. Then click `Instantiate`.
+
+⚠️🚧⚠️ Note: If you get an error after clicking `Instantiate` ⚠️🚧⚠️ it might be because your version on IBM Blockchain Platform doesn't match the version in the `package.json`. Try filling in ```Chaincode Version: 1.0.0``` instead.
 
 For `Chaincode Type` select `Node`. Then click `Next`. Next, leave the defaults on the next screen,
 which show a simple endorsement policy. Just click `Submit`. Note - the policy specifies which peers
