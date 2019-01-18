@@ -201,6 +201,8 @@ Successfully registered user1 - secret:OnqVuU*tCwPU
 Successfully enrolled member user "user1"User1 was successfully registered and enrolled and is ready to interact with the fabric network
 ```
 
+If you get an error (connection timeout) - don't worry. If you go to the top-right corner of IBM Blockchain Platform, and then click *reset network* and then you run through the steps again, everything should work. 
+
 🙌🏼 Nice! You are almost there!
 
 ## Step 4. Invoking Chaincode 
