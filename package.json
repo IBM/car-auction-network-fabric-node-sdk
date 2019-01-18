@@ -8,8 +8,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "fabric-ca-client": "^1.4.0-snapshot.105",
-    "fabric-client": "^1.4.0-snapshot.104",
+    "fabric-ca-client": "^1.2.0",
+    "fabric-client": "^1.2.0",
     "grpc": "^1.6.0"
   },
   "devDependencies": {
