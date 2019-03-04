@@ -122,7 +122,6 @@ let Chaincode = class {
 
   }
 
-
   /**
    * Create a vehicle object in the state
    * @param arg[0] - key for the car (vehicle id number)
@@ -134,6 +133,7 @@ let Chaincode = class {
     if (args.length != 2) {
       throw new Error('Incorrect number of arguments. Expecting 2');
     }
+
     let cid = new ClientIdentity(stub);
     var car = {
       owner: args[1],
@@ -159,7 +159,23 @@ let Chaincode = class {
     if (args.length != 6) {
       throw new Error('Incorrect number of arguments. Expecting 6');
     }
+
+    // check to enforce stateOfListing as an ENUM variable
+    if (args[3] != 'FOR_SALE' && args[3] != 'RESERVE_NOT_MET' && args[3] != 'SOLD') {
+      throw new Error('state of listing only accepts three options');
+    }
+
+    let vehicleAsBytes = await stub.getState(args[5]);
+    if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
+      throw new Error('vehicle does not exist');
+    }
+    let vehicle = JSON.parse(listingAsBytes);
     let cid = new ClientIdentity(stub);
+
+    if (vehicle.ownerId != cid.getID()) {
+      throw new Error('vehicle does not belong to you');
+    }
+
     var vehicleListing = {
       reservePrice: args[1],
       description: args[2],
@@ -213,8 +229,8 @@ let Chaincode = class {
     if (args.length != 3) {
       throw new Error('Incorrect number of arguments. Expecting 3');
     }
-    let cid = new ClientIdentity(stub);
 
+    let cid = new ClientIdentity(stub);
     var offer = {
       bidPrice: args[0],
       listing: args[1],
