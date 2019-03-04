@@ -55,43 +55,47 @@ let Chaincode = class {
    * It can be thought of as a constructor for the network. For this network
    * we will create 3 members, a vehicle, and a vehicle listing.
    */
-  // async initLedger(stub, args) {
-  //   console.info('============= START : Initialize Ledger ===========');
-  //
-  //   let amy = {};
-  //   amy.balance = 5000;
-  //   amy.firstName = 'Amy';
-  //   amy.lastName = 'Williams';
-  //   console.info('======After member ===========');
-  //
-  //   let billy = {};
-  //   billy.balance = 5000;
-  //   billy.firstName = 'Billy';
-  //   billy.lastName = 'Thompson';
-  //
-  //   let tom = {};
-  //   tom.balance = 5000;
-  //   tom.firstName = 'Tom';
-  //   tom.lastName = 'Werner';
-  //
-  //   let vehicle = {};
-  //   vehicle.owner = 'amy@acme.org';
-  //
-  //   let vehicleListing = {};
-  //   vehicleListing.reservePrice = 3500;
-  //   vehicleListing.description = 'Arium Nova';
-  //   vehicleListing.listingState = 'FOR_SALE';
-  //   vehicleListing.offers = '';
-  //   vehicleListing.vehicle = 'vin-123';
-  //
-  //   await stub.putState('amy@acme.org', Buffer.from(JSON.stringify(amy)));
-  //   await stub.putState('billy@acme.org', Buffer.from(JSON.stringify(billy)));
-  //   await stub.putState('tom@acme.org', Buffer.from(JSON.stringify(tom)));
-  //   await stub.putState('vin-123', Buffer.from(JSON.stringify(vehicle)));
-  //   await stub.putState('listing-123', Buffer.from(JSON.stringify(vehicleListing)));
-  //
-  //   console.info('============= END : Initialize Ledger ===========');
-  // }
+  async initLedger(stub, args) {
+    console.info('============= START : Initialize Ledger ===========');
+
+    let cid = new ClientIdentity(stub);
+
+    let amy = {};
+    amy.balance = 5000;
+    amy.firstName = 'Amy';
+    amy.lastName = 'Williams';
+    console.info('====== After member ===========');
+
+    let billy = {};
+    billy.balance = 5000;
+    billy.firstName = 'Billy';
+    billy.lastName = 'Thompson';
+
+    let tom = {};
+    tom.balance = 5000;
+    tom.firstName = 'Tom';
+    tom.lastName = 'Werner';
+
+    let vehicle = {};
+    vehicle.owner = 'amy@acme.org';
+    vehicle.ownerId = cid.getID();
+
+    let vehicleListing = {};
+    vehicleListing.reservePrice = 3500;
+    vehicleListing.description = 'Arium Nova';
+    vehicleListing.listingState = 'FOR_SALE';
+    vehicleListing.offers = '';
+    vehicleListing.vehicle = 'vin-123';
+    vehicleListing.ownerId = cid.getID();
+
+    await stub.putState('amy@acme.org', Buffer.from(JSON.stringify(amy)));
+    await stub.putState('billy@acme.org', Buffer.from(JSON.stringify(billy)));
+    await stub.putState('tom@acme.org', Buffer.from(JSON.stringify(tom)));
+    await stub.putState('vin-123', Buffer.from(JSON.stringify(vehicle)));
+    await stub.putState('listing-123', Buffer.from(JSON.stringify(vehicleListing)));
+
+    console.info('============= END : Initialize Ledger ===========');
+  }
 
   /**
    * Query the state of the blockchain by passing in a key
@@ -210,26 +214,17 @@ let Chaincode = class {
       throw new Error('Incorrect number of arguments. Expecting 3');
     }
     let cid = new ClientIdentity(stub);
-    let currentId = cid.getID();
 
     var offer = {
       bidPrice: args[0],
       listing: args[1],
-      member: args[2]
+      member: args[2],
+      memberId: cid.getID()
     };
 
     let listing = args[1];
     console.info('listing: ' + listing);
 
-    //get reference to member to ensure enough balance in their account to make the bid
-    let memberAsBytes = await stub.getState(offer.member);
-    if (!memberAsBytes || memberAsBytes.toString().length <= 0) {
-      throw new Error('member does not exist: ');
-    }
-    let member = JSON.parse(memberAsBytes);
-    if (member.id != currentId) {
-      throw new Error(`Authorization failed. Expected member ${member.name} to sign transaction`);
-    }
     //get reference to listing, to add the offer to the listing later
     let listingAsBytes = await stub.getState(listing);
     if (!listingAsBytes || listingAsBytes.toString().length <= 0) {
@@ -242,8 +237,14 @@ let Chaincode = class {
     if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
       throw new Error('vehicle does not exist');
     }
-
     let vehicle = JSON.parse(vehicleAsBytes);
+
+    //get reference to member to ensure enough balance in their account to make the bid
+    let memberAsBytes = await stub.getState(offer.member);
+    if (!memberAsBytes || memberAsBytes.toString().length <= 0) {
+      throw new Error('member does not exist: ');
+    }
+    let member = JSON.parse(memberAsBytes);
 
     //check to ensure bidder has enough balance to make the bid
     if (member.balance < offer.bidPrice) {
