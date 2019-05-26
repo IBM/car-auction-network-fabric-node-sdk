@@ -1,3 +1,7 @@
+# WARNING: This repository is no longer maintained :warning:
+
+> The Blockchain Starter Plan is going out of service. This repository will not be updated. The repository will be kept available in read-only mode. Refer to https://developer.ibm.com/patterns/category/blockchain/ for similar examples.
+
 <!--[![Build Status](https://travis-ci.com/IBM/car-auction-network-fabric-node-sdk.svg?branch=master)](https://travis-ci.com/IBM/car-auction-network-fabric-node-sdk)-->
 
 # Create a car auction network with Hyperledger Fabric Node.js SDK and IBM Blockchain Starter Plan
