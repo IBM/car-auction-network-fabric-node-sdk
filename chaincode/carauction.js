@@ -13,22 +13,23 @@
 
 'use strict';
 const shim = require('fabric-shim');
+const ClientIdentity = shim.ClientIdentity;
 const util = require('util');
 
 let Chaincode = class {
 
   /**
-   * The Init method is called when the Smart Contract 'carauction' is instantiated by the 
+   * The Init method is called when the Smart Contract 'carauction' is instantiated by the
    * blockchain network. Best practice is to have any Ledger initialization in separate
    * function -- see initLedger()
    */
   async Init(stub) {
-    console.info('=========== Instantiated fabcar chaincode ===========');
+    console.info('=========== Instantiated car auction chaincode ===========');
     return shim.success();
   }
   /**
-   * The Invoke method is called as a result of an application request to run the 
-   * Smart Contract 'carauction'. The calling application program has also specified 
+   * The Invoke method is called as a result of an application request to run the
+   * Smart Contract 'carauction'. The calling application program has also specified
    * the particular smart contract function to be called, with arguments
    */
   async Invoke(stub) {
@@ -50,52 +51,56 @@ let Chaincode = class {
   }
 
   /**
-   * The initLedger method is called as a result of instantiating chaincode. 
-   * It can be thought of as a constructor for the network. For this network 
+   * The initLedger method is called as a result of instantiating chaincode.
+   * It can be thought of as a constructor for the network. For this network
    * we will create 3 members, a vehicle, and a vehicle listing.
    */
   async initLedger(stub, args) {
     console.info('============= START : Initialize Ledger ===========');
 
-    let member1 = {};
-    member1.balance = 5000;
-    member1.firstName = 'Amy';
-    member1.lastName = 'Williams';
-    console.info('======After member ===========');
+    let cid = new ClientIdentity(stub);
 
-    let member2 = {};
-    member2.balance = 5000;
-    member2.firstName = 'Billy';
-    member2.lastName = 'Thompson';
+    let amy = {};
+    amy.balance = 5000;
+    amy.firstName = 'Amy';
+    amy.lastName = 'Williams';
+    console.info('====== After member ===========');
 
-    let member3 = {};
-    member3.balance = 5000;
-    member3.firstName = 'Tom';
-    member3.lastName = 'Werner';
+    let billy = {};
+    billy.balance = 5000;
+    billy.firstName = 'Billy';
+    billy.lastName = 'Thompson';
+
+    let tom = {};
+    tom.balance = 5000;
+    tom.firstName = 'Tom';
+    tom.lastName = 'Werner';
 
     let vehicle = {};
-    vehicle.owner = 'memberA@acme.org';
+    vehicle.owner = 'amy@acme.org';
+    vehicle.ownerId = cid.getID();
 
     let vehicleListing = {};
     vehicleListing.reservePrice = 3500;
     vehicleListing.description = 'Arium Nova';
     vehicleListing.listingState = 'FOR_SALE';
     vehicleListing.offers = '';
-    vehicleListing.vehicle = '1234';
+    vehicleListing.vehicle = 'vin-123';
+    vehicleListing.ownerId = cid.getID();
 
-    await stub.putState('memberA@acme.org', Buffer.from(JSON.stringify(member1)));
-    await stub.putState('memberB@acme.org', Buffer.from(JSON.stringify(member2)));
-    await stub.putState('memberC@acme.org', Buffer.from(JSON.stringify(member3)));
-    await stub.putState('1234', Buffer.from(JSON.stringify(vehicle)));
-    await stub.putState('ABCD', Buffer.from(JSON.stringify(vehicleListing)));
+    await stub.putState('amy@acme.org', Buffer.from(JSON.stringify(amy)));
+    await stub.putState('billy@acme.org', Buffer.from(JSON.stringify(billy)));
+    await stub.putState('tom@acme.org', Buffer.from(JSON.stringify(tom)));
+    await stub.putState('vin-123', Buffer.from(JSON.stringify(vehicle)));
+    await stub.putState('listing-123', Buffer.from(JSON.stringify(vehicleListing)));
 
     console.info('============= END : Initialize Ledger ===========');
   }
 
   /**
-   * Query the state of the blockchain by passing in a key  
-   * @param arg[0] - key to query 
-   * @return value of the key if it exists, else return an error 
+   * Query the state of the blockchain by passing in a key
+   * @param arg[0] - key to query
+   * @return value of the key if it exists, else return an error
    */
   async query(stub, args) {
     console.info('============= START : Query method ===========');
@@ -117,12 +122,11 @@ let Chaincode = class {
 
   }
 
-
   /**
-   * Create a vehicle object in the state  
+   * Create a vehicle object in the state
    * @param arg[0] - key for the car (vehicle id number)
    * @param arg[1] - owner of the car - should reference the email of a member
-   * onSuccess - create and update the state with a new vehicle object  
+   * onSuccess - create and update the state with a new vehicle object
    */
   async createVehicle(stub, args) {
     console.info('============= START : Create Car ===========');
@@ -130,8 +134,10 @@ let Chaincode = class {
       throw new Error('Incorrect number of arguments. Expecting 2');
     }
 
+    let cid = new ClientIdentity(stub);
     var car = {
-      owner: args[1]
+      owner: args[1],
+      ownerId: cid.getID()
     };
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(car)));
@@ -139,14 +145,14 @@ let Chaincode = class {
   }
 
   /**
-   * Create a vehicle listing object in the state  
+   * Create a vehicle listing object in the state
    * @param arg[0] - key for the vehicle listing (listing number)
    * @param arg[1] - reservePrice, or the minimum acceptable offer for a vehicle
    * @param arg[2] - description of the object
    * @param arg[3] - state of the listing, can be 'FOR_SALE', 'RESERVE_NOT_MET', or 'SOLD'
    * @param arg[4] - an array of offers for this particular listing
    * @param arg[5] - reference to the vehicle id (vin) which is to be put on auction
-   * onSuccess - create and update the state with a new vehicle listing object  
+   * onSuccess - create and update the state with a new vehicle listing object
    */
   async createVehicleListing(stub, args) {
     console.info('============= START : Create Car ===========');
@@ -154,12 +160,29 @@ let Chaincode = class {
       throw new Error('Incorrect number of arguments. Expecting 6');
     }
 
+    // check to enforce stateOfListing as an ENUM variable
+    if (args[3] != 'FOR_SALE' && args[3] != 'RESERVE_NOT_MET' && args[3] != 'SOLD') {
+      throw new Error('state of listing only accepts three options');
+    }
+
+    let vehicleAsBytes = await stub.getState(args[5]);
+    if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
+      throw new Error('vehicle does not exist');
+    }
+    let vehicle = JSON.parse(listingAsBytes);
+    let cid = new ClientIdentity(stub);
+
+    if (vehicle.ownerId != cid.getID()) {
+      throw new Error('vehicle does not belong to you');
+    }
+
     var vehicleListing = {
       reservePrice: args[1],
       description: args[2],
       listingState: args[3],
       offers: args[4],
-      vehicle: args[5]
+      vehicle: args[5],
+      ownerId: cid.getID()
     };
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(vehicleListing)));
@@ -167,48 +190,52 @@ let Chaincode = class {
   }
 
   /**
-   * Create a member object in the state  
+   * Create a member object in the state
    * @param arg[0] - key for the member (email)
    * @param arg[1] - first name of member
    * @param arg[2] - last name of member
    * @param arg[3] - balance: amount of money in member's account
-   * onSuccess - create and update the state with a new member  object  
+   * onSuccess - create and update the state with a new member  object
    */
   async createMember(stub, args) {
-    console.info('============= START : Create Car ===========');
+    console.info('============= START : Create User ===========');
     if (args.length != 4) {
       throw new Error('Incorrect number of arguments. Expecting 4');
     }
-
+    let cid = new ClientIdentity(stub);
     var member = {
       firstName: args[1],
       lastName: args[2],
-      balance: args[3]
+      balance: args[3],
+      id: cid.getID(),
+      mpsId: cid.getMSPID()
     };
 
     console.info(member);
 
     await stub.putState(args[0], Buffer.from(JSON.stringify(member)));
-    console.info('============= END : Create Car ===========');
+    console.info('============= END : Create User ===========');
   }
 
   /**
-   * Create a offer object in the state, and add it to the array of offers for that listing  
+   * Create a offer object in the state, and add it to the array of offers for that listing
    * @param arg[0] - bid price in the offer - how much bidder is willing to pay
    * @param arg[1] - listingId: reference to a listing in the state
    * @param arg[2] - member email: reference to member which does not own vehicle
-   * onSuccess - create and update the state with a new offer object  
+   * onSuccess - create and update the state with a new offer object
    */
   async makeOffer(stub, args) {
-    console.info('============= START : Create Car ===========');
+    console.info('============= START : Make Offer ===========');
     if (args.length != 3) {
       throw new Error('Incorrect number of arguments. Expecting 3');
     }
 
+    let cid = new ClientIdentity(stub);
     var offer = {
       bidPrice: args[0],
       listing: args[1],
-      member: args[2]
+      member: args[2],
+      memberId: cid.getID()
     };
 
     let listing = args[1];
@@ -226,11 +253,10 @@ let Chaincode = class {
     if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
       throw new Error('vehicle does not exist');
     }
-
     let vehicle = JSON.parse(vehicleAsBytes);
 
     //get reference to member to ensure enough balance in their account to make the bid
-    let memberAsBytes = await stub.getState(offer.member); 
+    let memberAsBytes = await stub.getState(offer.member);
     if (!memberAsBytes || memberAsBytes.toString().length <= 0) {
       throw new Error('member does not exist: ');
     }
@@ -253,7 +279,7 @@ let Chaincode = class {
 
     console.info('listing response before pushing to offers: ');
     console.info(listing);
-    
+
     //check to see if array is null - if so, we have to create an empty one, otherwise we can just push straight to it
     if (!listing.offers) {
       console.info('there are no offers!');
@@ -263,22 +289,22 @@ let Chaincode = class {
 
     console.info('listing response after pushing to offers: ');
     console.info(listing);
-    
+
     //update the listing - use listingId as key(args[1]), and listing object as value
     await stub.putState(args[1], Buffer.from(JSON.stringify(listing)));
 
-    console.info('============= END : MakeOffer method ===========');
+    console.info('============= END : Make Offer ============');
 
   }
 
-  /** 
+  /**
    * Close the bidding for a vehicle listing and choose the
-   * highest bid as the winner. 
+   * highest bid as the winner.
    * @param arg[0] - listingId - a reference to our vehicleListing
    * onSuccess - changes the ownership of the car on the auction from the original
-   * owner to the highest bidder. Subtracts the bid price from the highest bidder 
-   * and credits the account of the seller. Updates the state to include the new 
-   * owner and the resulting balances. 
+   * owner to the highest bidder. Subtracts the bid price from the highest bidder
+   * and credits the account of the seller. Updates the state to include the new
+   * owner and the resulting balances.
    */
   async closeBidding(stub, args) {
     console.info('============= START : Close bidding ===========');
@@ -287,15 +313,23 @@ let Chaincode = class {
     }
 
     let listingKey = args[0];
+    let cid = new ClientIdentity(stub);
+    let currentId = cid.getID();
 
     //check if listing exists
     let listingAsBytes = await stub.getState(listingKey);
     if (!listingAsBytes || listingAsBytes.toString().length <= 0) {
       throw new Error('listing does not exist: ');
     }
-    console.info('============= listing exists ===========');
 
+    console.info('============= listing exists ===========');
     var listing = JSON.parse(listingAsBytes);
+
+    // only creator of the listing can close the bidding
+    if (currentId != listing.ownerId) {
+      throw new Error('Only the owner of the listing may call this function');
+    }
+
     console.info('listing: ');
     console.info(util.inspect(listing, { showHidden: false, depth: null }));
     listing.listingState = 'RESERVE_NOT_MET';
@@ -303,7 +337,7 @@ let Chaincode = class {
 
     //can only close bidding if there are offers
     if (listing.offers && listing.offers.length > 0) {
-      
+
       //use built in JavaScript array sort method - returns highest value at the first index - i.e. highest bid
       listing.offers.sort(function (a, b) {
         return (b.bidPrice - a.bidPrice);
@@ -330,18 +364,18 @@ let Chaincode = class {
         console.info('buyer: ');
         console.info(util.inspect(buyer, { showHidden: false, depth: null }));
 
-        //get reference to vehicle so we can get the owner i.e. the seller 
-        let vehicleAsBytes = await stub.getState(listing.vehicle); 
+        //get reference to vehicle so we can get the owner i.e. the seller
+        let vehicleAsBytes = await stub.getState(listing.vehicle);
         if (!vehicleAsBytes || vehicleAsBytes.toString().length <= 0) {
           throw new Error('vehicle does not exist: ');
         }
 
-        //now that we have the reference to the vehicle object, 
+        //now that we have the reference to the vehicle object,
         //we can find the owner of the vehicle bc the vehicle object has a field for owner
         var vehicle = JSON.parse(vehicleAsBytes);
-        
+
         //get reference to the owner of the vehicle i.e. the seller
-        let sellerAsBytes = await stub.getState(vehicle.owner); 
+        let sellerAsBytes = await stub.getState(vehicle.owner);
         if (!sellerAsBytes || sellerAsBytes.toString().length <= 0) {
           throw new Error('vehicle does not exist: ');
         }
@@ -353,7 +387,7 @@ let Chaincode = class {
         console.info(util.inspect(seller, { showHidden: false, depth: null }));
 
         console.info('#### seller balance before: ' + seller.balance);
-        
+
         //ensure all strings get converted to ints
         let sellerBalance = parseInt(seller.balance, 10);
         let highOfferBidPrice = parseInt(highestOffer.bidPrice, 10);
@@ -365,37 +399,37 @@ let Chaincode = class {
 
         console.info('#### seller balance after: ' + seller.balance);
         console.info('#### buyer balance before: ' + buyerBalance);
-        
+
         //decrease balance of buyer by the amount of the bid price
         buyerBalance -= highestOffer.bidPrice;
         buyer.balance = buyerBalance;
-        
+
         console.info('#### buyer balance after: ' + buyerBalance);
         console.info('#### buyer balance after: ' + buyerBalance);
         console.info('#### vehicle owner before: ' + vehicle.owner);
-        
+
         //need reference to old owner so we can update their balance later
         let oldOwner = vehicle.owner;
-        
+
         //assign person with highest bid as new owner
         vehicle.owner = highestOffer.member;
-        
+
         console.info('#### vehicle owner after: ' + vehicle.owner);
         console.info('#### buyer balance after: ' + buyerBalance);
         listing.offers = null;
         listing.listingState = 'SOLD';
 
-        //update the balance of the buyer 
+        //update the balance of the buyer
         await stub.putState(highestOffer.member, Buffer.from(JSON.stringify(buyer)));
-        
+
         console.info('old owner: ');
         console.info(util.inspect(oldOwner, { showHidden: false, depth: null }));
-        
+
         //update the balance of the seller i.e. old owner
         await stub.putState(oldOwner, Buffer.from(JSON.stringify(seller)));
-        
+
         //update the listing, use listingId as key, and the listing object as the value
-        await stub.putState(listingKey, Buffer.from(JSON.stringify(listing)));        
+        await stub.putState(listingKey, Buffer.from(JSON.stringify(listing)));
       }
     }
     console.info('inspecting vehicle: ');
@@ -410,4 +444,4 @@ let Chaincode = class {
   }
 };
 
-shim.start(new Chaincode()); 
+shim.start(new Chaincode());
